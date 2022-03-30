@@ -1,7 +1,53 @@
 import Image from "next/image";
-import React from "react";
+import React, { FormEvent, useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [values, setValues] = useState<{
+    email: string;
+    device_name: string;
+    password: string;
+  }>({
+    email: "edwin@abc.com",
+    device_name: "samsung",
+    password: "test123",
+  });
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    axios.get("/sanctum/csrf-cookie").then((response) => {
+      console.log(response.data);
+    });
+
+    // const form = new FormData();
+    // form.append("email", "edwin@abc.com");
+    // form.append("password", "test123");
+    // form.append("device_name", "xxxx");
+
+    // try {
+    //   const data = await axios
+    //     .post(
+    //       "http://qkapi-1130225346.ap-southeast-1.elb.amazonaws.com/api/login",
+    //       form
+    //     )
+    //     .then((res) => res.data);
+
+    //   console.log(JSON.stringify(data));
+    // } catch (error) {
+    //   console.error(JSON.stringify(error));
+    // }
+  };
+
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+
+    console.log(event.target.name);
+  };
+
   return (
     <div className="grid grid-cols-12 min-h-screen font-poppins overflow-hidden">
       <section className="bg-indigo-1000 col-span-6 relative z-10">
@@ -30,15 +76,20 @@ const Login = () => {
         </div>
       </section>
       <section className="col-span-6 px-40 py-40">
-        <form className="max-w-max p-8 shadow-md rounded-md">
+        <form
+          onSubmit={onSubmit}
+          className="max-w-max p-8 shadow-md rounded-md"
+        >
           <h3 className="font-bold text-4xl pb-4">LOGIN</h3>
 
           <fieldset className="flex flex-col gap-4 mb-8">
             <div className="flex flex-col gap-1">
               <label htmlFor="" className="text-sm text-neutral-500">
-                Username
+                Email
               </label>
               <input
+                name="email"
+                onChange={onChange}
                 type="text"
                 className="bg-neutral-100 p-2 rounded-md max-w-md focus:out"
               />
@@ -48,13 +99,18 @@ const Login = () => {
                 Password
               </label>
               <input
+                name="password"
+                onChange={onChange}
                 type="password"
                 className="bg-neutral-100 p-2 rounded-md max-w-md"
               />
             </div>
           </fieldset>
 
-          <button className="bg-scarlet-300 hover:bg-scarlet-400 w-full max-w-md py-2 rounded-md text-white">
+          <button
+            type="submit"
+            className="bg-scarlet-300 hover:bg-scarlet-400 w-full max-w-md py-2 rounded-md text-white"
+          >
             LOGIN
           </button>
         </form>

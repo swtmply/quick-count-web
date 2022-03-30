@@ -1,21 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 import { useState } from "react";
-import BigCard from "../components/Cards/BigCard";
+import Card from "../components/Cards/Card";
 import FloatingCard from "../components/Cards/FloatingCard";
-import SmallCard from "../components/Cards/SmallCard";
 import { Layout } from "../components/Layout";
-import { cardProgressBarColors } from "../lib/constants";
-import { Candidate } from "../types";
-
-const presidentialCandidates: Candidate[] = [
-  { name: "Marcos, BabyM <3", votes: 100000000, votePercentage: 78 },
-  { name: "Robredo, Leni", votes: 80000000, votePercentage: 73 },
-  { name: "Moreno, Iskor", votes: 20000000, votePercentage: 20 },
-];
+import {
+  cardProgressBarColors,
+  presidentialCandidates,
+} from "../lib/constants";
 
 const Home: NextPage = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [candidates] = useState(presidentialCandidates);
 
   return (
     <Layout>
@@ -23,29 +19,33 @@ const Home: NextPage = () => {
         Live counting of votes
       </h1>
       <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-2">
-        <BigCard
+        <Card
           setSelectedCard={setSelectedCard}
           progressBarColor="bg-[#1774D1]"
+          width="col-span-full"
           title="President"
-          candidates={presidentialCandidates}
+          candidates={candidates.slice(0, 3)}
         />
-        <SmallCard
+        <Card
           setSelectedCard={setSelectedCard}
           progressBarColor="bg-[#D11717]"
+          width="col-span-full"
           title="Vice President"
-          candidates={presidentialCandidates}
+          candidates={candidates.slice(0, 3)}
         />
-        <SmallCard
+        <Card
           setSelectedCard={setSelectedCard}
           progressBarColor="bg-gradient-to-r from-[#5383FF] to-[#F153FF]"
+          width="col-span-6"
           title="Senator"
-          candidates={presidentialCandidates}
+          candidates={candidates}
         />
-        <BigCard
+        <Card
           setSelectedCard={setSelectedCard}
           progressBarColor="bg-gradient-to-r from-[#F65858] to-[#F4B02D]"
+          width="col-span-6"
           title="Partylist"
-          candidates={presidentialCandidates}
+          candidates={candidates}
         />
       </motion.div>
 
@@ -62,11 +62,12 @@ const Home: NextPage = () => {
             >
               <FloatingCard
                 setSelectedCard={setSelectedCard}
+                width="col-span-full"
                 title={selectedCard}
                 progressBarColor={
                   cardProgressBarColors[selectedCard].progressBarColor
                 }
-                candidates={presidentialCandidates}
+                candidates={candidates}
               />
             </motion.div>
           </AnimatePresence>

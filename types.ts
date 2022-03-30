@@ -1,3 +1,5 @@
+import React from "react";
+
 export type ProgressBarProps = {
   backgroundColor: string;
   percent: number;
@@ -19,4 +21,10 @@ export type CardProps = {
   progressBarColor: string;
   setSelectedCard: (id: string) => void;
   title: string;
+  width: string;
+};
+
+export type TabProps = {
+  title: string;
+  content: React.ReactNode;
 };

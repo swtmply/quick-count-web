@@ -29,7 +29,7 @@ export const Layout: React.FC = ({ children }) => {
         </section>
       </header>
 
-      <main className="mt-[90px] min-h-screen max-w-7xl m-auto grid grid-cols-12 auto-rows-max gap-2">
+      <main className="mt-[90px] min-h-screen max-w-7xl m-auto grid grid-cols-12 auto-rows-max gap-2 p-4">
         {children}
       </main>
 
