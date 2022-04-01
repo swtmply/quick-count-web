@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { FormEvent, useState } from "react";
-import axios from "axios";
 
 const Login = () => {
   const [values, setValues] = useState<{
@@ -15,28 +14,6 @@ const Login = () => {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    axios.get("/sanctum/csrf-cookie").then((response) => {
-      console.log(response.data);
-    });
-
-    // const form = new FormData();
-    // form.append("email", "edwin@abc.com");
-    // form.append("password", "test123");
-    // form.append("device_name", "xxxx");
-
-    // try {
-    //   const data = await axios
-    //     .post(
-    //       "http://qkapi-1130225346.ap-southeast-1.elb.amazonaws.com/api/login",
-    //       form
-    //     )
-    //     .then((res) => res.data);
-
-    //   console.log(JSON.stringify(data));
-    // } catch (error) {
-    //   console.error(JSON.stringify(error));
-    // }
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +55,7 @@ const Login = () => {
       <section className="col-span-6 px-40 py-40">
         <form
           onSubmit={onSubmit}
-          className="max-w-max p-8 shadow-md rounded-md"
+          className="max-w-max p-8 shadow-md rounded-md bg-white"
         >
           <h3 className="font-bold text-4xl pb-4">LOGIN</h3>
 

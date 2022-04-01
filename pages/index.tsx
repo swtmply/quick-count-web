@@ -1,6 +1,7 @@
+import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../components/Cards/Card";
 import FloatingCard from "../components/Cards/FloatingCard";
 import { Layout } from "../components/Layout";
@@ -12,6 +13,10 @@ import {
 const Home: NextPage = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [candidates] = useState(presidentialCandidates);
+
+  useEffect(() => {
+    axios.get("/api/users").then((response) => console.log(response));
+  }, []);
 
   return (
     <Layout>
