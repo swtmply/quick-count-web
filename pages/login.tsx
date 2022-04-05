@@ -1,3 +1,4 @@
+import axios from "axios";
 import Image from "next/image";
 import React, { FormEvent, useState } from "react";
 
@@ -7,13 +8,17 @@ const Login = () => {
     device_name: string;
     password: string;
   }>({
-    email: "edwin@abc.com",
-    device_name: "samsung",
-    password: "test123",
+    email: "",
+    device_name: "",
+    password: "",
   });
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    await axios
+      .post("/api/login", { ...values })
+      .then((res) => console.log(res.data));
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +30,7 @@ const Login = () => {
     console.log(event.target.name);
   };
 
+  // TODO: error message and validations
   return (
     <div className="grid grid-cols-12 min-h-screen font-poppins overflow-hidden">
       <section className="bg-indigo-1000 col-span-6 relative z-10">

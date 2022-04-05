@@ -7,6 +7,7 @@ export type ProgressBarProps = {
 };
 
 export interface Candidate {
+  id?: number;
   name: string;
   votes: number;
   votePercentage: number;
