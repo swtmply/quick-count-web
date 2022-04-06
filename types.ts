@@ -9,23 +9,14 @@ export type ProgressBarProps = {
 export interface Candidate {
   id?: number;
   name: string;
-  votes: number;
-  votePercentage: number;
+  position_code: string;
 }
 
 export type CardProgressBarColors = {
   [key: string]: { progressBarColor: string };
 };
 
-export type CardProps = {
-  candidates: Candidate[];
-  progressBarColor: string;
-  setSelectedCard: (id: string) => void;
-  title: string;
-  width: string;
-};
-
 export type TabProps = {
-  title: string;
+  position: string;
   content: React.ReactNode;
 };

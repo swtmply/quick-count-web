@@ -1,80 +1,39 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { NextPage } from "next";
-import { useState } from "react";
-import Card from "../components/Cards/Card";
-import FloatingCard from "../components/Cards/FloatingCard";
+import { useQuery } from "react-query";
+import Card from "../components/Card";
 import { Layout } from "../components/Layout";
-import {
-  cardProgressBarColors,
-  presidentialCandidates,
-} from "../lib/constants";
+import ModalCard from "../components/ModalCard";
+import { getPositions } from "../lib/queries";
+
+export interface Position {
+  position_id: string;
+  position: string;
+  position_code: string;
+  level_id: string;
+}
 
 const Home: NextPage = () => {
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
-  const [candidates] = useState(presidentialCandidates);
+  const { data, isLoading } = useQuery("positions", getPositions);
+
+  if (isLoading) return <Layout>Loading...</Layout>;
 
   return (
-    <Layout>
-      <h1 className="font-bold text-3xl col-span-full my-8">
-        Live counting of votes
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      </h1>
-      <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-2">
-        <Card
-          setSelectedCard={setSelectedCard}
-          progressBarColor="bg-[#1774D1]"
-          width="col-span-full"
-          title="President"
-          candidates={candidates.slice(0, 3)}
-        />
-        <Card
-          setSelectedCard={setSelectedCard}
-          progressBarColor="bg-[#D11717]"
-          width="col-span-full"
-          title="Vice President"
-          candidates={candidates.slice(0, 3)}
-        />
-        <Card
-          setSelectedCard={setSelectedCard}
-          progressBarColor="bg-gradient-to-r from-[#5383FF] to-[#F153FF]"
-          width="col-span-6"
-          title="Senator"
-          candidates={candidates}
-        />
-        <Card
-          setSelectedCard={setSelectedCard}
-          progressBarColor="bg-gradient-to-r from-[#F65858] to-[#F4B02D]"
-          width="col-span-6"
-          title="Partylist"
-          candidates={candidates}
-        />
-      </motion.div>
+    <>
+      <Layout>
+        <h1 className="font-bold text-3xl col-span-full my-8">
+          Live counting of votes
+        </h1>
 
-      {selectedCard && (
-        <div
-          className="fixed inset-0 bg-black/40 z-50 cursor-pointer flex justify-center items-center"
-          onClick={() => setSelectedCard(null)}
-        >
-          <AnimatePresence>
-            <motion.div
-              onClick={(e) => e.stopPropagation()}
-              layoutId={selectedCard}
-              className="p-4 bg-white rounded-md cursor-default"
-            >
-              <FloatingCard
-                setSelectedCard={setSelectedCard}
-                width="col-span-full"
-                title={selectedCard}
-                progressBarColor={
-                  cardProgressBarColors[selectedCard].progressBarColor
-                }
-                candidates={candidates}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      )}
-    </Layout>
+        <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-10">
+          {data?.positions.map((position: Position) => {
+            if (position.level_id === "1")
+              return <Card key={position.position_id} position={position} />;
+          })}
+        </motion.div>
+      </Layout>
+      <ModalCard />
+    </>
   );
 };
 

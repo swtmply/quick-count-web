@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Get all positions
 export async function getPositions() {
   try {
     const result = await axios.get("/api/positions").then((res) => res.data);
@@ -10,10 +11,37 @@ export async function getPositions() {
   }
 }
 
-export async function getCandidates(position: string) {
+// Get all position based on level
+export async function getPositionsByLevel(level: string) {
+  try {
+    const result = await axios
+      .get(`/api/positions?level=${level}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get all candidates per position
+export async function getCandidates(position?: string) {
   try {
     const result = await axios
       .get(`/api/candidates?position=${position}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get national candidates
+export async function getCandidatesByLevel(level?: string) {
+  try {
+    const result = await axios
+      .get(`/api/candidates?level=${level}`)
       .then((res) => res.data);
 
     return result;
@@ -32,6 +60,7 @@ export async function getRegions() {
     console.error(error);
   }
 }
+
 // Get all provinces in region
 export async function getProvinces(reg_id: string) {
   try {
@@ -44,6 +73,7 @@ export async function getProvinces(reg_id: string) {
     console.error(error);
   }
 }
+
 // Get all municipality in province
 export async function getMunicipalities(prov_id: string) {
   try {

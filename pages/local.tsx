@@ -8,40 +8,20 @@ import { TabProps } from "../types";
 export default function Local() {
   const tabs: TabProps[] = [
     {
-      title: "Governor",
-      content: (
-        <CandidateList
-          candidates={presidentialCandidates}
-          progressBarColor="bg-[#1774D1]"
-        />
-      ),
+      position: "Governor",
+      content: <CandidateList candidates={presidentialCandidates} />,
     },
     {
-      title: "Vice Governor",
-      content: (
-        <CandidateList
-          candidates={presidentialCandidates}
-          progressBarColor="bg-[#D11717]"
-        />
-      ),
+      position: "Vice Governor",
+      content: <CandidateList candidates={presidentialCandidates} />,
     },
     {
-      title: "House of Representative",
-      content: (
-        <CandidateList
-          candidates={presidentialCandidates}
-          progressBarColor="bg-gradient-to-r from-[#5383FF] to-[#F153FF]"
-        />
-      ),
+      position: "House of Representative",
+      content: <CandidateList candidates={presidentialCandidates} />,
     },
     {
-      title: "Team Member",
-      content: (
-        <CandidateList
-          candidates={presidentialCandidates}
-          progressBarColor="bg-gradient-to-r from-[#F65858] to-[#F4B02D]"
-        />
-      ),
+      position: "Team Member",
+      content: <CandidateList candidates={presidentialCandidates} />,
     },
   ];
   return (

@@ -11,20 +11,23 @@ const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
           <Tab.List className="font-bold flex gap-8 text-lg items-center relative">
             {tabs.map((tab, idx) => (
               <Tab
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                before={tab.position}
                 key={idx}
                 className={({ selected }) =>
                   classNames(
                     selected ? "font-bold" : "text-sm text-neutral-700",
-                    "before:absolute before:block before:max-w-max before:h-2 before:bg-blue-500"
+                    selected && "border-b-4 border-blue-500"
                   )
                 }
               >
-                {tab.title}
+                {tab.position}
               </Tab>
             ))}
           </Tab.List>
         </div>
-        <hr className="my-2" />
+        <hr className="mb-2" />
         <Tab.Panels>
           {tabs.map((tab, idx) => (
             <Tab.Panel

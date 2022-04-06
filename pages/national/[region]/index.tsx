@@ -23,6 +23,8 @@ const Region = () => {
 
   return (
     <Layout>
+      <h1 className="font-bold text-3xl col-span-full my-8">National</h1>
+
       <div className="col-span-full flex gap-2">
         {data &&
           data?.provinces.map((province: Province) => (
