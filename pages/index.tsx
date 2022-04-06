@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import { useQuery } from "react-query";
 import Card from "../components/Card";
 import { Layout } from "../components/Layout";
+import LoadingSpinner from "../components/LoadingSpinner";
 import ModalCard from "../components/ModalCard";
 import { getPositions } from "../lib/queries";
 
@@ -16,8 +17,6 @@ export interface Position {
 const Home: NextPage = () => {
   const { data, isLoading } = useQuery("positions", getPositions);
 
-  if (isLoading) return <Layout>Loading...</Layout>;
-
   return (
     <>
       <Layout>
@@ -25,12 +24,16 @@ const Home: NextPage = () => {
           Live counting of votes
         </h1>
 
-        <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-10">
-          {data?.positions.map((position: Position) => {
-            if (position.level_id === "1")
-              return <Card key={position.position_id} position={position} />;
-          })}
-        </motion.div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-10">
+            {data?.positions.map((position: Position) => {
+              if (position.level_id === "1")
+                return <Card key={position.position_id} position={position} />;
+            })}
+          </motion.div>
+        )}
       </Layout>
       <ModalCard />
     </>

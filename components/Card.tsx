@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { ArrowsExpandIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import CandidateList from "./CandidateList";
-import { useQuery } from "react-query";
-import { getCandidates } from "../lib/queries";
 import { SelectedPositionContext } from "../context/SelectedPosition";
 import { Position } from "../pages";
 

@@ -29,6 +29,13 @@ const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
         </div>
         <hr className="mb-2" />
         <Tab.Panels>
+          <div className="flex text-xs uppercase font-bold text-neutral-400 mb-2">
+            <p className="w-12 mr-1">Rank</p>
+            <div className="w-full flex justify-between">
+              <p>Name</p>
+              <p className="text-right">Votes</p>
+            </div>
+          </div>
           {tabs.map((tab, idx) => (
             <Tab.Panel
               key={idx}
