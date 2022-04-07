@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import SelectedPositionProvider from "../context/SelectedPosition";
+import { FilteredItemsProvider } from "../context/FilteredItems";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -19,9 +20,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <SelectedPositionProvider>
-          <Component {...pageProps} />
-        </SelectedPositionProvider>
+        <FilteredItemsProvider>
+          <SelectedPositionProvider>
+            <Component {...pageProps} />
+          </SelectedPositionProvider>
+        </FilteredItemsProvider>
       </Hydrate>
     </QueryClientProvider>
   );
