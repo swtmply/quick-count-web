@@ -1,9 +1,8 @@
 import { Dialog } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { FilterIcon } from "@heroicons/react/solid";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useFilteredItems } from "../context/FilteredItems";
-import { Position } from "../pages";
 
 interface FiltersProps {
   isOpen: boolean;
@@ -69,8 +68,7 @@ const Filters = ({
     >
       <div className="flex items-center justify-center min-h-screen">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-        {/* TODO: Filters Checkbox */}
-        <div className="relative bg-white rounded min-w-[40vw] mx-auto p-4 flex flex-col gap-4">
+        <div className="relative bg-white min-w-[20vw] rounded mx-auto p-4 flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <Dialog.Title className="font-bold text-xl">{title}</Dialog.Title>
             <button
@@ -83,20 +81,40 @@ const Filters = ({
             </button>
           </div>
           <hr />
-          <div>
-            {filteredItems?.map((item) => (
-              <div key={item.position_id}>
+          <div className="grid grid-rows-[repeat(10,_1fr)] grid-flow-col gap-2">
+            {filteredItems?.map((item, idx) => (
+              <div key={idx}>
                 <label className="inline-flex items-center space-x-4">
                   <input
                     className="w-6 h-6 mr-4 border-2 text-yellowwallow focus:ring-opacity-50 focus:ring-yellowwallow border-gray-400 rounded-full"
                     type="checkbox"
-                    id={`c-${item}`}
-                    value={item.position}
-                    name={item.position}
+                    id={`c-${
+                      item.position_id || item.reg_id || item.id || item.mun_id
+                    }`}
+                    value={
+                      item.position ||
+                      item.reg_name ||
+                      item.municipal ||
+                      item.province
+                    }
+                    name={
+                      item.position ||
+                      item.reg_name ||
+                      item.municipal ||
+                      item.province
+                    }
                     onChange={handleCheckbox}
-                    checked={items.includes(item.position)}
+                    checked={items.includes(
+                      item.position ||
+                        item.reg_name ||
+                        item.municipal ||
+                        item.province
+                    )}
                   />
-                  {item.position}
+                  {item.position ||
+                    item.reg_name ||
+                    item.municipal ||
+                    item.province}
                 </label>
               </div>
             ))}

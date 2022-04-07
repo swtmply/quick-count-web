@@ -86,3 +86,14 @@ export async function getMunicipalities(prov_id: string) {
     console.error(error);
   }
 }
+
+// Get votes per candidates
+export async function getAllVotes() {
+  try {
+    const result = await axios.get("/api/votes").then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

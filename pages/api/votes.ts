@@ -10,7 +10,7 @@ export default async function handler(
       query: "SELECT * FROM `report_vote_per_candidate`",
     });
 
-    res.json({ result });
+    res.json(result);
   } catch (error) {
     console.log(error);
   }

@@ -4,7 +4,7 @@ import ProgressBar from "./ProgressBar";
 import { motion } from "framer-motion";
 import { Candidate } from "../types";
 import { useQuery } from "react-query";
-import { getCandidates } from "../lib/queries";
+import { getAllVotes, getCandidates } from "../lib/queries";
 import LoadingSpinner from "./LoadingSpinner";
 
 const CandidateList = ({ position_code }: { position_code: string }) => {
@@ -14,14 +14,19 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
   );
 
   // TODO: Get candidates votes
+  const { data: votes, isLoading: votesLoading } = useQuery(
+    ["votes", "all"],
+    getAllVotes
+  );
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && votesLoading ? (
         <LoadingSpinner />
       ) : (
         <motion.ul className="flex flex-col gap-2">
           {data &&
+            votes &&
             data.candidates
               // .sort((a, b) => (a.name > b.name ? 1 : 0))
               .map((candidate: Candidate, idx: number) => {

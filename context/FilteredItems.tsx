@@ -6,17 +6,16 @@ import {
   useContext,
   useState,
 } from "react";
-import { Position } from "../pages";
 
 type FilteredItems = {
-  filteredItems: Position[];
-  setFilteredItems: Dispatch<SetStateAction<Position[]>>;
+  filteredItems: any[];
+  setFilteredItems: Dispatch<SetStateAction<any[]>>;
 };
 
 const FilteredItemsContext = createContext<FilteredItems>({} as FilteredItems);
 
 export const FilteredItemsProvider: FC = ({ children }) => {
-  const [filteredItems, setFilteredItems] = useState<Position[]>([]);
+  const [filteredItems, setFilteredItems] = useState<any[]>([]);
 
   return (
     <FilteredItemsContext.Provider value={{ filteredItems, setFilteredItems }}>
