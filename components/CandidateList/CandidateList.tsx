@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../ProgressBar";
 import { motion } from "framer-motion";
-import { Candidate } from "../types";
+import { Candidate } from "../../types";
 import { useQuery } from "react-query";
-import { getAllVotes, getCandidates } from "../lib/queries";
-import LoadingSpinner from "./LoadingSpinner";
+import { getAllVotes, getCandidates } from "../../lib/queries";
+import LoadingSpinner from "../LoadingSpinner";
 
 const CandidateList = ({ position_code }: { position_code: string }) => {
   // TODO: Get candidates
@@ -13,7 +13,7 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
     getCandidates(position_code)
   );
 
-  // TODO: Get candidates votes
+  // TODO: Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading: votesLoading } = useQuery(
     ["votes", "all"],
     getAllVotes
@@ -35,6 +35,7 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
               vote_percentage: vote.vote_percentage,
               submitted_vote: vote.submitted_vote,
             };
+
             return candidateWithVotes;
           }
         })
@@ -50,38 +51,41 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
         <motion.ul className="flex flex-col gap-2">
           {data &&
             votes &&
-            filteredCandidates
-              // .sort((a, b) => (a.name > b.name ? 1 : 0))
-              .map((candidate: any, idx: number) => {
-                const name = candidate?.name.split(", ");
+            filteredCandidates.sort().map((candidate: any, idx: number) => {
+              const name = candidate?.name.split(", ");
 
-                if (candidate)
-                  return (
-                    <motion.li className="flex gap-1 items-center" key={idx}>
-                      <p className="font-bold text-xl w-12 p-2">{idx + 1}</p>
+              if (candidate)
+                return (
+                  <motion.li className="flex gap-1 items-center" key={idx}>
+                    <p className="font-bold text-xl w-12 p-2">{idx + 1}</p>
 
-                      <div className="w-full">
-                        <div className="flex justify-between">
-                          <p>
-                            <span className="font-bold">{name[0]}, </span>
-                            {name[1]}
+                    <div className="w-full">
+                      <div className="flex justify-between">
+                        <p>
+                          <span className="font-bold">{name[0]}, </span>
+                          {name[1]}
+                        </p>
+                        <div className="flex gap-10">
+                          <p className="font-bold">
+                            {candidate.vote_percentage}%
                           </p>
                           <NumberFormat
                             value={candidate.submitted_vote}
-                            className="text-right font-bold"
+                            className="text-right font-bold min-w-[40px]"
                             thousandSeparator={true}
                             displayType="text"
                           />
                         </div>
-                        <ProgressBar
-                          backgroundColor="bg-[#1774D1]"
-                          height={10}
-                          percent={candidate.vote_percentage}
-                        />
                       </div>
-                    </motion.li>
-                  );
-              })}
+                      <ProgressBar
+                        backgroundColor="bg-[#1774D1]"
+                        height={10}
+                        percent={candidate.vote_percentage}
+                      />
+                    </div>
+                  </motion.li>
+                );
+            })}
         </motion.ul>
       )}
     </>

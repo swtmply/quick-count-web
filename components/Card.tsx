@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { ArrowsExpandIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import CandidateList from "./CandidateList";
+import CandidateList from "./CandidateList/CandidateList";
 import { SelectedPositionContext } from "../context/SelectedPosition";
 import { Position } from "../pages";
 
@@ -30,7 +30,10 @@ const Card = ({ position }: { position: Position }) => {
         <p className="w-12 mr-1">Rank</p>
         <div className="w-full flex justify-between">
           <p>Name</p>
-          <p className="text-right">Votes</p>
+          <div className="flex gap-10">
+            <p className="text-right">Vote Percentage</p>
+            <p className="text-right">Votes</p>
+          </div>
         </div>
       </div>
       <CandidateList position_code={position.position_code} />

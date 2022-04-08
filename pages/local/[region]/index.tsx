@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "../..";
-import CandidateList from "../../../components/CandidateList";
+import CandidateList from "../../../components/CandidateList/CandidateList";
 import FilterButton from "../../../components/FilterButton";
 import { Layout } from "../../../components/Layout";
 import LoadingSpinner from "../../../components/LoadingSpinner";

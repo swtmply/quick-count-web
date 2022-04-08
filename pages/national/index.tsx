@@ -2,7 +2,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "..";
-import CandidateList from "../../components/CandidateList";
+import CandidateList from "../../components/CandidateList/CandidateList";
+import RegionalCandidateList from "../../components/CandidateList/RegionalCandidateList";
 import FilterButton from "../../components/FilterButton";
 import { Layout } from "../../components/Layout";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -67,7 +68,8 @@ export default function National() {
                       (position: Position) => ({
                         position: position.position,
                         content: (
-                          <CandidateList
+                          <RegionalCandidateList
+                            region={region.reg_id}
                             position_code={position.position_code}
                           />
                         ),

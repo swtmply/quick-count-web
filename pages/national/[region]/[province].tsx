@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "../..";
-import CandidateList from "../../../components/CandidateList";
+import CandidateList from "../../../components/CandidateList/CandidateList";
+import MunicipalityCandidateList from "../../../components/CandidateList/MunicipalityCandidateList";
 import FilterButton from "../../../components/FilterButton";
 import { Layout } from "../../../components/Layout";
 import LoadingSpinner from "../../../components/LoadingSpinner";
@@ -79,7 +80,8 @@ const Province = () => {
                       (position: Position) => ({
                         position: position.position,
                         content: (
-                          <CandidateList
+                          <MunicipalityCandidateList
+                            municipality={municipality.mun_id}
                             position_code={position.position_code}
                           />
                         ),

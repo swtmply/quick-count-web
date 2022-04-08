@@ -97,3 +97,42 @@ export async function getAllVotes() {
     console.error(error);
   }
 }
+
+// Get votes per region
+export async function getAllVotesPerRegion(region: string) {
+  try {
+    const result = await axios
+      .get(`/api/votes?region=${region}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get votes per region
+export async function getAllVotesPerProvince(province: string) {
+  try {
+    const result = await axios
+      .get(`/api/votes?province=${province}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get votes per region
+export async function getAllVotesPerMunicipality(municipality: string) {
+  try {
+    const result = await axios
+      .get(`/api/votes?municipality=${municipality}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
