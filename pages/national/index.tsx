@@ -14,7 +14,7 @@ import {
   getCandidatesByLevel,
 } from "../../lib/queries";
 
-interface Region {
+export interface Region {
   id: string;
   reg_name: string;
   reg_id: string;

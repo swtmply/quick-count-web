@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import ProgressBar from "./ProgressBar";
 import { motion } from "framer-motion";
@@ -19,44 +19,68 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
     getAllVotes
   );
 
+  const [filteredCandidates, setFilteredCandidates] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (data && votes)
+      setFilteredCandidates(
+        data.candidates.map((candidate: Candidate) => {
+          const vote = votes.find(
+            (vote: any) => vote.candidate_name === candidate.name
+          );
+
+          if (vote) {
+            const candidateWithVotes = {
+              ...candidate,
+              vote_percentage: vote.vote_percentage,
+              submitted_vote: vote.submitted_vote,
+            };
+            return candidateWithVotes;
+          }
+        })
+      );
+  }, [data, votes]);
+
   return (
     <>
       {isLoading && votesLoading ? (
         <LoadingSpinner />
       ) : (
+        // <pre>{JSON.stringify(filteredCandidates, null, 2)}</pre>
         <motion.ul className="flex flex-col gap-2">
           {data &&
             votes &&
-            data.candidates
+            filteredCandidates
               // .sort((a, b) => (a.name > b.name ? 1 : 0))
-              .map((candidate: Candidate, idx: number) => {
-                const name = candidate.name.split(", ");
+              .map((candidate: any, idx: number) => {
+                const name = candidate?.name.split(", ");
 
-                return (
-                  <motion.li className="flex gap-1 items-center" key={idx}>
-                    <p className="font-bold text-xl w-12 p-2">{idx + 1}</p>
+                if (candidate)
+                  return (
+                    <motion.li className="flex gap-1 items-center" key={idx}>
+                      <p className="font-bold text-xl w-12 p-2">{idx + 1}</p>
 
-                    <div className="w-full">
-                      <div className="flex justify-between">
-                        <p>
-                          <span className="font-bold">{name[0]}, </span>
-                          {name[1]}
-                        </p>
-                        <NumberFormat
-                          value={10000000}
-                          className="text-right font-bold"
-                          thousandSeparator={true}
-                          displayType="text"
+                      <div className="w-full">
+                        <div className="flex justify-between">
+                          <p>
+                            <span className="font-bold">{name[0]}, </span>
+                            {name[1]}
+                          </p>
+                          <NumberFormat
+                            value={candidate.submitted_vote}
+                            className="text-right font-bold"
+                            thousandSeparator={true}
+                            displayType="text"
+                          />
+                        </div>
+                        <ProgressBar
+                          backgroundColor="bg-[#1774D1]"
+                          height={10}
+                          percent={candidate.vote_percentage}
                         />
                       </div>
-                      <ProgressBar
-                        backgroundColor="bg-[#1774D1]"
-                        height={10}
-                        percent={50}
-                      />
-                    </div>
-                  </motion.li>
-                );
+                    </motion.li>
+                  );
               })}
         </motion.ul>
       )}

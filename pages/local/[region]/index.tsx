@@ -14,12 +14,7 @@ import {
   getPositionsByLevel,
   getProvinces,
 } from "../../../lib/queries";
-
-export interface Province {
-  id: string;
-  province: string;
-  ref: string;
-}
+import { Province } from "../../national/[region]";
 
 const Region = () => {
   const router = useRouter();
@@ -28,12 +23,11 @@ const Region = () => {
   const { data, isLoading } = useQuery(["regions", reg_id], () =>
     getProvinces(reg_id)
   );
-
-  const positionsQuery = useQuery(["positions", "national"], () =>
-    getPositionsByLevel("1")
+  const positionsQuery = useQuery(["positions", "local"], () =>
+    getPositionsByLevel("2")
   );
-  const candidatesQuery = useQuery(["candidates", "national"], () =>
-    getCandidatesByLevel("1")
+  const candidatesQuery = useQuery(["candidates", "local"], () =>
+    getCandidatesByLevel("2")
   );
 
   const [items, setItems] = useState<string[]>([]);
@@ -46,14 +40,15 @@ const Region = () => {
     }
   }, [data]);
 
+  console.log(candidatesQuery.data, positionsQuery.data);
+
   return (
     <Layout>
       <div className="col-span-full my-8 flex justify-between items-center">
-        <h1 className="font-bold text-3xl">National</h1>
+        <h1 className="font-bold text-3xl">Local</h1>
 
         <FilterButton items={items} title="Regions" setItems={setItems} />
       </div>
-
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -66,7 +61,7 @@ const Region = () => {
             })
             .map((province: Province) => (
               <div className="w-full flex flex-col gap-2" key={province.id}>
-                <Link href={`/national/${reg_id}/${province.ref}`} passHref>
+                <Link href={`/local/${reg_id}/${province.ref}`} passHref>
                   <a className="font-semibold text-lg">{province.province}</a>
                 </Link>
                 {positionsQuery.data && candidatesQuery.data && (

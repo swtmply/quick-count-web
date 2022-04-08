@@ -1,20 +1,20 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Position } from "../../..";
-import CandidateList from "../../../../components/CandidateList";
-import FilterButton from "../../../../components/FilterButton";
-import { Layout } from "../../../../components/Layout";
-import LoadingSpinner from "../../../../components/LoadingSpinner";
-import VoteTab from "../../../../components/VoteTab";
-import { useFilteredItems } from "../../../../context/FilteredItems";
+import { Position } from "../..";
+import CandidateList from "../../../components/CandidateList";
+import FilterButton from "../../../components/FilterButton";
+import { Layout } from "../../../components/Layout";
+import LoadingSpinner from "../../../components/LoadingSpinner";
+import VoteTab from "../../../components/VoteTab";
+import { useFilteredItems } from "../../../context/FilteredItems";
 import {
   getCandidatesByLevel,
   getMunicipalities,
   getPositionsByLevel,
-} from "../../../../lib/queries";
+} from "../../../lib/queries";
 
-interface Municipality {
+export interface Municipality {
   mun_id: string;
   municipal: string;
 }
