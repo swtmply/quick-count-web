@@ -1,13 +1,16 @@
+import { withIronSessionApiRoute } from "iron-session/next/dist";
 import type { NextApiRequest, NextApiResponse } from "next";
 import query from "../../lib/db";
+import { sessionOptions } from "../../lib/session";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default withIronSessionApiRoute(handler, sessionOptions);
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { region, province, municipality },
   } = req;
+
+  if (!req.session.user) res.status(401).json({ message: "Not authorized" });
 
   if (region) {
     try {
@@ -16,9 +19,9 @@ export default async function handler(
         values: [region],
       });
 
-      res.json(result);
+      res.status(200).json(result);
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -29,9 +32,9 @@ export default async function handler(
         values: [province],
       });
 
-      res.json(result);
+      res.status(200).json(result);
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -42,9 +45,9 @@ export default async function handler(
         values: [municipality],
       });
 
-      res.json(result);
+      res.status(200).json(result);
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ message: (error as Error).message });
     }
   }
 
@@ -53,8 +56,8 @@ export default async function handler(
       query: "SELECT * FROM `report_vote_per_candidate`",
     });
 
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: (error as Error).message });
   }
 }

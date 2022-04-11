@@ -1,13 +1,16 @@
+import { withIronSessionApiRoute } from "iron-session/next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import query from "../../lib/db";
+import { sessionOptions } from "../../lib/session";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default withIronSessionApiRoute(handler, sessionOptions);
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { position, level },
   } = req;
+
+  if (!req.session.user) res.status(401).json({ message: "Not authorized" });
 
   if (level)
     try {
@@ -19,7 +22,7 @@ export default async function handler(
       if (candidates.length === 0)
         res.status(401).json({ message: "Data not found" });
 
-      res.json({ candidates });
+      res.status(200).json({ candidates });
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +37,7 @@ export default async function handler(
       if (candidates.length === 0)
         res.status(401).json({ message: "Data not found" });
 
-      res.json({ candidates });
+      res.status(200).json({ candidates });
     } catch (error) {
       console.log(error);
     }
@@ -47,8 +50,8 @@ export default async function handler(
     if (candidates.length === 0)
       res.status(401).json({ message: "Data not found" });
 
-    res.json({ candidates });
+    res.status(200).json({ candidates });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: (error as Error).message });
   }
 }

@@ -1,24 +1,29 @@
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
 
 const Login = () => {
+  const router = useRouter();
   const [values, setValues] = useState<{
     email: string;
-    device_name: string;
     password: string;
   }>({
     email: "",
-    device_name: "",
     password: "",
   });
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await axios
-      .post("/api/login", { ...values })
-      .then((res) => console.log(res.data));
+    // TODO: add validations
+    try {
+      await axios.post("/api/login", { ...values });
+
+      router.push("/");
+    } catch (error) {
+      console.error("An unexpected error happened", error);
+    }
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +31,6 @@ const Login = () => {
       ...values,
       [event.target.name]: event.target.value,
     });
-
-    console.log(event.target.name);
   };
 
   // TODO: error message and validations

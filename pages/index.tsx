@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { withIronSessionSsr } from "iron-session/next";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -9,6 +10,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ModalCard from "../components/ModalCard";
 import { useFilteredItems } from "../context/FilteredItems";
 import { getPositions } from "../lib/queries";
+import { sessionOptions } from "../lib/session";
 
 export interface Position {
   position_id: string;
@@ -16,6 +18,27 @@ export interface Position {
   position_code: string;
   level_id: string;
 }
+
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+}) {
+  const user = req.session.user;
+
+  if (user === undefined) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { user: req.session.user },
+  };
+},
+sessionOptions);
 
 const Home: NextPage = () => {
   const { data, isLoading } = useQuery("positions", getPositions);
