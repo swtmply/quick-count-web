@@ -50,3 +50,38 @@ export const Nav = () => {
     </nav>
   );
 };
+
+export const AdminNav = () => {
+  const router = useRouter();
+
+  return (
+    <nav>
+      <ul className="flex gap-4">
+        <li>
+          <Link href="/dashboard" passHref>
+            <a
+              className={classNames(
+                DEFAULT,
+                router.pathname === "/dashboard" && ACTIVE
+              )}
+            >
+              Incident Report
+            </a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/dashboard/users" passHref>
+            <a
+              className={classNames(
+                DEFAULT,
+                router.pathname === "/dashboard/users" && ACTIVE
+              )}
+            >
+              User Management
+            </a>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};

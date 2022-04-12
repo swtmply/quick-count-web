@@ -12,18 +12,23 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // TODO: add validations
-    try {
-      await axios.post("/api/login", { ...values });
+    await axios
+      .post("/api/login", { ...values })
+      .then((res) => {
+        if (res.data.message) {
+          setErrorMsg(res.data.message);
+          return;
+        }
 
-      router.push("/");
-    } catch (error) {
-      console.error("An unexpected error happened", error);
-    }
+        return router.push("/");
+      })
+      .catch((error) => setErrorMsg(error));
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +82,10 @@ const Login = () => {
                 name="email"
                 onChange={onChange}
                 type="text"
-                className="bg-neutral-100 p-2 rounded-md max-w-md focus:out"
+                className={`bg-neutral-100 p-2 rounded-md max-w-md focus:out ${
+                  errorMsg && "border-2 border-scarlet-300"
+                }`}
+                onBlur={() => setErrorMsg(null)}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -88,7 +96,10 @@ const Login = () => {
                 name="password"
                 onChange={onChange}
                 type="password"
-                className="bg-neutral-100 p-2 rounded-md max-w-md"
+                className={`bg-neutral-100 p-2 rounded-md max-w-md focus:out ${
+                  errorMsg && "border-2 border-scarlet-300"
+                }`}
+                onBlur={() => setErrorMsg(null)}
               />
             </div>
           </fieldset>
@@ -99,6 +110,7 @@ const Login = () => {
           >
             LOGIN
           </button>
+          <p className="text-scarlet-300 mt-2 text-sm">{errorMsg}</p>
         </form>
       </section>
     </div>

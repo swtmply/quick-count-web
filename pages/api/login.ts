@@ -15,23 +15,23 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       values: [email],
     });
 
+    if (user.length === 0)
+      return res.status(203).json({ message: "User is not found" });
+
     const isMatched = await bcrypt.compare(
       req.body.password,
       user[0].password.replace("$2y$", "$2a$")
     );
 
     if (!isMatched)
-      res
-        .status(400)
+      return res
+        .status(203)
         .json({ message: "Invalid Credentials, Please try again." });
-
-    if (user.length === 0)
-      res.status(401).json({ message: "User is not found" });
 
     req.session.user = user;
     await req.session.save();
 
-    res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
