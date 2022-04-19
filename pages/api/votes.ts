@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_region` WHERE region_code=? AND position_id=? ORDER BY vote_percentage DESC",
+          "SELECT * FROM `report_vote_per_region` WHERE region_code=? AND position_id=? ORDER BY submitted_vote DESC",
         values: [region, position],
       });
 
@@ -30,7 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY vote_percentage DESC",
+          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY submitted_vote DESC",
         values: [province, position],
       });
 
@@ -44,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_mun` WHERE mun_code=? AND position_id=? ORDER BY vote_percentage DESC",
+          "SELECT * FROM `report_vote_per_mun` WHERE mun_code=? AND position_id=? ORDER BY submitted_vote DESC",
         values: [municipality, position],
       });
 
@@ -57,7 +57,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const result = await query({
       query:
-        "SELECT * FROM `report_vote_per_candidate` WHERE position_id=? ORDER BY vote_percentage DESC",
+        "SELECT * FROM `report_vote_per_candidate` WHERE position_id=? ORDER BY submitted_vote DESC",
       values: [position],
     });
 

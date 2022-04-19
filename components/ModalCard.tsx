@@ -37,16 +37,21 @@ const ModalCard = () => {
               </div>
 
               <hr className="my-2" />
-              <div className="flex text-xs uppercase font-bold text-neutral-400 mb-2">
-                <p className="w-12 mr-1">Rank</p>
-                <div className="w-full flex justify-between">
-                  <p>Name</p>
-                  <p className="text-right">Votes</p>
-                </div>
-              </div>
-              <AllCandidateList
-                position_code={selectedPosition.position_code}
-              />
+
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-xs uppercase font-bold text-neutral-400 mb-4">
+                    <th className="text-center w-2 pr-2">Rank</th>
+                    <th>Name</th>
+                    <th className="text-right">Vote Percentage</th>
+                    <th className="text-right">Votes</th>
+                  </tr>
+                </thead>
+
+                <AllCandidateList
+                  position_code={selectedPosition.position_code}
+                />
+              </table>
             </motion.div>
           </AnimatePresence>
         </div>

@@ -9,8 +9,9 @@ import { Layout } from "../components/Layout";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ModalCard from "../components/ModalCard";
 import { useFilteredItems } from "../context/FilteredItems";
-import { getPositions } from "../lib/queries";
+import { getBallotCasts, getPositions } from "../lib/queries";
 import { sessionOptions } from "../lib/session";
+import NumberFormat from "react-number-format";
 
 export interface Position {
   position_id: string;
@@ -42,6 +43,10 @@ sessionOptions);
 
 const Home: NextPage = () => {
   const { data, isLoading } = useQuery("positions", getPositions);
+  const { data: ballotCount, isLoading: ballotCountLoading } = useQuery(
+    "ballot-count",
+    getBallotCasts
+  );
   const [items, setItems] = useState<string[]>([]);
   const { filteredItems, setFilteredItems } = useFilteredItems();
 
@@ -59,6 +64,24 @@ const Home: NextPage = () => {
           <h1 className="font-bold text-3xl">Live counting of votes</h1>
 
           <FilterButton items={items} title="Positions" setItems={setItems} />
+        </div>
+
+        <div className="col-span-full flex justify-end">
+          <span className="italic">
+            {ballotCountLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <p>
+                Total ballot cast:
+                <NumberFormat
+                  value={ballotCount[0].total_ballot_cast}
+                  className="text-right font-bold min-w-[40px] ml-2"
+                  thousandSeparator={true}
+                  displayType="text"
+                />
+              </p>
+            )}
+          </span>
         </div>
 
         {isLoading ? (

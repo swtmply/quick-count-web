@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getAllVotes } from "../../lib/queries";
 import LoadingSpinner from "../LoadingSpinner";
+import React from "react";
 
 const AllCandidateList = ({ position_code }: { position_code: string }) => {
   // TODO Get candidates votes (per region/province/municipality)
@@ -20,44 +21,49 @@ const AllCandidateList = ({ position_code }: { position_code: string }) => {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <motion.ul className="flex flex-col gap-2">
-          {votes &&
-            votes.map((candidate: any, idx: number) => {
-              const name = candidate?.candidate_name.split(", ");
+        <tbody>
+          {votes.map((candidate: any, idx: number) => {
+            const name = candidate?.candidate_name.split(", ");
 
-              if (candidate)
-                return (
-                  <motion.li className="flex gap-1 items-center" key={idx}>
-                    <p className="font-bold text-xl w-12 p-2">{idx + 1}</p>
-
-                    <div className="w-full">
-                      <div className="flex justify-between">
-                        <p>
-                          <span className="font-bold">{name[0]}, </span>
-                          {name[1]}
-                        </p>
-                        <div className="flex gap-10">
-                          <p className="font-bold">
-                            {candidate.vote_percentage}%
-                          </p>
-                          <NumberFormat
-                            value={candidate.submitted_vote}
-                            className="text-right font-bold min-w-[40px]"
-                            thousandSeparator={true}
-                            displayType="text"
-                          />
-                        </div>
-                      </div>
+            if (candidate)
+              return (
+                <React.Fragment>
+                  <tr className="text-left">
+                    <td
+                      rowSpan={2}
+                      className="font-bold text-xl text-center pr-2 py-2"
+                    >
+                      {idx + 1}
+                    </td>
+                    <td className="pt-2">
+                      <span className="font-bold">{name[0]}, </span>
+                      {name[1]}
+                    </td>
+                    <td className="font-bold text-right">
+                      {candidate.vote_percentage}%
+                    </td>
+                    <td className="text-right">
+                      <NumberFormat
+                        value={candidate.submitted_vote}
+                        className="text-right font-bold min-w-[40px]"
+                        thousandSeparator={true}
+                        displayType="text"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={4} className="pb-2">
                       <ProgressBar
                         backgroundColor="bg-[#1774D1]"
                         height={10}
                         percent={candidate.vote_percentage}
                       />
-                    </div>
-                  </motion.li>
-                );
-            })}
-        </motion.ul>
+                    </td>
+                  </tr>
+                </React.Fragment>
+              );
+          })}
+        </tbody>
       )}
     </>
   );

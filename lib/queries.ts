@@ -144,3 +144,14 @@ export async function getAllVotesPerMunicipality(
     console.error(error);
   }
 }
+
+// Get total ballot casts
+export async function getBallotCasts() {
+  try {
+    const result = await axios.get("/api/ballot-count").then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

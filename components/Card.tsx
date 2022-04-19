@@ -26,17 +26,19 @@ const Card = ({ position }: { position: Position }) => {
         </button>
       </div>
       <hr className="my-2" />
-      <div className="flex text-xs uppercase font-bold text-neutral-400 mb-2">
-        <p className="w-12 mr-1">Rank</p>
-        <div className="w-full flex justify-between">
-          <p>Name</p>
-          <div className="flex gap-10">
-            <p className="text-right">Vote Percentage</p>
-            <p className="text-right">Votes</p>
-          </div>
-        </div>
-      </div>
-      <CandidateList position_code={position.position_code} />
+
+      <table className="table-fixed border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase font-bold text-neutral-400 mb-4">
+            <th className="text-center w-2 pr-2">Rank</th>
+            <th>Name</th>
+            <th className="text-right">Vote Percentage</th>
+            <th className="text-right">Votes</th>
+          </tr>
+        </thead>
+
+        <CandidateList position_code={position.position_code} />
+      </table>
     </motion.div>
   );
 };

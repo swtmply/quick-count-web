@@ -29,24 +29,20 @@ const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
         </div>
         <hr className="mb-2" />
         <Tab.Panels>
-          <div className="flex text-xs uppercase font-bold text-neutral-400 mb-2">
-            <p className="w-12 mr-1">Rank</p>
-            <div className="w-full flex justify-between">
-              <p>Name</p>
-              <p className="text-right">Votes</p>
-            </div>
-          </div>
           {tabs.map((tab, idx) => (
-            <Tab.Panel
-              key={idx}
-              className={({ selected }) =>
-                classNames(
-                  selected ? "font-bold" : "text-sm text-neutral-700",
-                  "before:absolute before:block before:max-w-max before:h-2 before:bg-blue-500"
-                )
-              }
-            >
-              {tab.content}
+            <Tab.Panel key={idx}>
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-xs uppercase font-bold text-neutral-400 mb-4">
+                    <th className="text-center w-2 pr-2">Rank</th>
+                    <th>Name</th>
+                    <th className="text-right">Vote Percentage</th>
+                    <th className="text-right">Votes</th>
+                  </tr>
+                </thead>
+
+                {tab.content}
+              </table>
             </Tab.Panel>
           ))}
         </Tab.Panels>
