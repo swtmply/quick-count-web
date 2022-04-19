@@ -2,10 +2,10 @@ import { XIcon } from "@heroicons/react/outline";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useContext } from "react";
 import { SelectedPositionContext } from "../context/SelectedPosition";
-import CandidateList from "./CandidateList/CandidateList";
+import AllCandidateList from "./CandidateList/AllCandidateList";
 
 const ModalCard = () => {
-  const { selectedPosition, setSelectedPosition, candidateList } = useContext(
+  const { selectedPosition, setSelectedPosition } = useContext(
     SelectedPositionContext
   );
 
@@ -44,7 +44,9 @@ const ModalCard = () => {
                   <p className="text-right">Votes</p>
                 </div>
               </div>
-              <CandidateList position_code={selectedPosition.position_code} />
+              <AllCandidateList
+                position_code={selectedPosition.position_code}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

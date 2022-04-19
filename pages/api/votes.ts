@@ -7,7 +7,7 @@ export default withIronSessionApiRoute(handler, sessionOptions);
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    query: { region, province, municipality },
+    query: { region, province, municipality, position },
   } = req;
 
   if (!req.session.user) res.status(401).json({ message: "Not authorized" });
@@ -15,8 +15,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (region) {
     try {
       const result = await query({
-        query: "SELECT * FROM `report_vote_per_region` WHERE region_code=?",
-        values: [region],
+        query:
+          "SELECT * FROM `report_vote_per_region` WHERE region_code=? AND position_id=? ORDER BY vote_percentage DESC",
+        values: [region, position],
       });
 
       res.status(200).json(result);
@@ -28,8 +29,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (province) {
     try {
       const result = await query({
-        query: "SELECT * FROM `report_vote_per_prov` WHERE prov_code=?",
-        values: [province],
+        query:
+          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY vote_percentage DESC",
+        values: [province, position],
       });
 
       res.status(200).json(result);
@@ -41,8 +43,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (municipality) {
     try {
       const result = await query({
-        query: "SELECT * FROM `report_vote_per_mun` WHERE mun_code=?",
-        values: [municipality],
+        query:
+          "SELECT * FROM `report_vote_per_mun` WHERE mun_code=? AND position_id=? ORDER BY vote_percentage DESC",
+        values: [municipality, position],
       });
 
       res.status(200).json(result);
@@ -53,7 +56,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const result = await query({
-      query: "SELECT * FROM `report_vote_per_candidate`",
+      query:
+        "SELECT * FROM `report_vote_per_candidate` WHERE position_id=? ORDER BY vote_percentage DESC",
+      values: [position],
     });
 
     res.status(200).json(result);

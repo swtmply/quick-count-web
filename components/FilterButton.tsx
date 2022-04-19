@@ -70,7 +70,15 @@ const Filters = ({
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
         <div className="relative bg-white min-w-[20vw] rounded mx-auto p-4 flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <Dialog.Title className="font-bold text-xl">{title}</Dialog.Title>
+            <Dialog.Title className="font-bold text-xl">
+              {title}
+              <button
+                onClick={() => setItems([])}
+                className="text-sm font-normal ml-4 underline text-[#1774D1]"
+              >
+                Clear All
+              </button>
+            </Dialog.Title>
             <button
               onClick={() => {
                 setIsOpen(false);

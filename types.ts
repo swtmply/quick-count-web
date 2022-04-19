@@ -26,3 +26,8 @@ export type TabProps = {
   position: string;
   content: React.ReactNode;
 };
+
+export interface SlicePosition {
+  position: string;
+  sliceNumber: number;
+}

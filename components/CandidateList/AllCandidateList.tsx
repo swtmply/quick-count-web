@@ -4,10 +4,8 @@ import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getAllVotes } from "../../lib/queries";
 import LoadingSpinner from "../LoadingSpinner";
-import { useState } from "react";
-import { slicePosition } from "../../lib/constants";
 
-const CandidateList = ({ position_code }: { position_code: string }) => {
+const AllCandidateList = ({ position_code }: { position_code: string }) => {
   // TODO Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading } = useQuery(
     ["votes", position_code],
@@ -17,10 +15,6 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
     }
   );
 
-  const [toSlice] = useState(() => {
-    return slicePosition.find((p) => p.position === position_code)?.sliceNumber;
-  });
-
   return (
     <>
       {isLoading ? (
@@ -28,7 +22,7 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
       ) : (
         <motion.ul className="flex flex-col gap-2">
           {votes &&
-            votes.slice(0, toSlice).map((candidate: any, idx: number) => {
+            votes.map((candidate: any, idx: number) => {
               const name = candidate?.candidate_name.split(", ");
 
               if (candidate)
@@ -69,4 +63,4 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
   );
 };
 
-export default CandidateList;
+export default AllCandidateList;

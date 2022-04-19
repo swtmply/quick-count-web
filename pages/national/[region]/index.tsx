@@ -33,6 +33,7 @@ const Region = () => {
   const positionsQuery = useQuery(["positions", "national"], () =>
     getPositionsByLevel("1")
   );
+
   const candidatesQuery = useQuery(["candidates", "national"], () =>
     getCandidatesByLevel("1")
   );
@@ -77,7 +78,7 @@ const Region = () => {
                         position: position.position,
                         content: (
                           <ProvincialCandidateList
-                            province={province.id}
+                            province={province.ref}
                             position_code={position.position_code}
                           />
                         ),

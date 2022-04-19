@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,7 +28,7 @@ const Login = () => {
 
         return router.push("/");
       })
-      .catch((error) => setErrorMsg(error));
+      .catch((error) => setErrorMsg("Connection Error"));
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

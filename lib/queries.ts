@@ -88,21 +88,10 @@ export async function getMunicipalities(prov_id: string) {
 }
 
 // Get votes per candidates
-export async function getAllVotes() {
-  try {
-    const result = await axios.get("/api/votes").then((res) => res.data);
-
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Get votes per region
-export async function getAllVotesPerRegion(region: string) {
+export async function getAllVotes(position: string) {
   try {
     const result = await axios
-      .get(`/api/votes?region=${region}`)
+      .get(`/api/votes?position=${position}`)
       .then((res) => res.data);
 
     return result;
@@ -112,10 +101,10 @@ export async function getAllVotesPerRegion(region: string) {
 }
 
 // Get votes per region
-export async function getAllVotesPerProvince(province: string) {
+export async function getAllVotesPerRegion(region: string, position: string) {
   try {
     const result = await axios
-      .get(`/api/votes?province=${province}`)
+      .get(`/api/votes?region=${region}&position=${position}`)
       .then((res) => res.data);
 
     return result;
@@ -125,10 +114,29 @@ export async function getAllVotesPerProvince(province: string) {
 }
 
 // Get votes per region
-export async function getAllVotesPerMunicipality(municipality: string) {
+export async function getAllVotesPerProvince(
+  province: string,
+  position: string
+) {
   try {
     const result = await axios
-      .get(`/api/votes?municipality=${municipality}`)
+      .get(`/api/votes?province=${province}&position=${position}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get votes per region
+export async function getAllVotesPerMunicipality(
+  municipality: string,
+  position: string
+) {
+  try {
+    const result = await axios
+      .get(`/api/votes?municipality=${municipality}&position=${position}`)
       .then((res) => res.data);
 
     return result;
