@@ -9,8 +9,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.session.user) {
       const result = await query({
-        query:
-          "select sum(`qkapi_db`.`votes`.`total_ballot_count`) AS `total_ballot_cast` from `qkapi_db`.`votes`",
+        query: "SELECT * FROM `TotalBallotCast`",
       });
 
       res.status(200).json(result);
