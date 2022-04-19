@@ -45,7 +45,10 @@ const Home: NextPage = () => {
   const { data, isLoading } = useQuery("positions", getPositions);
   const { data: ballotCount, isLoading: ballotCountLoading } = useQuery(
     "ballot-count",
-    getBallotCasts
+    getBallotCasts,
+    {
+      refetchInterval: 10000,
+    }
   );
   const [items, setItems] = useState<string[]>([]);
   const { filteredItems, setFilteredItems } = useFilteredItems();
