@@ -44,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_mun` WHERE mun_code=? AND position_id=? ORDER BY submitted_vote DESC",
+          "SELECT * FROM `report_vote_per_muni` WHERE mun_code=? AND position_id=? ORDER BY submitted_vote DESC",
         values: [municipality, position],
       });
 

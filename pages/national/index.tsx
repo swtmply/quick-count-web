@@ -26,9 +26,7 @@ export default function National() {
   const positionsQuery = useQuery(["positions", "national"], () =>
     getPositionsByLevel("1")
   );
-  const candidatesQuery = useQuery(["candidates", "national"], () =>
-    getCandidatesByLevel("1")
-  );
+
   const [items, setItems] = useState<string[]>([]);
   const { filteredItems, setFilteredItems } = useFilteredItems();
 
@@ -59,9 +57,11 @@ export default function National() {
             })
             .map((region: Region) => (
               <div className="w-full flex flex-col gap-2" key={region.id}>
-                <Link href={`/national/${region.reg_id}`} passHref>
-                  <a className="font-semibold text-lg">{region.reg_name}</a>
-                </Link>
+                <div>
+                  <Link href={`/national/${region.reg_id}`} passHref>
+                    <a className="font-semibold text-lg">{region.reg_name}</a>
+                  </Link>
+                </div>
                 {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(
