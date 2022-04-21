@@ -49,8 +49,6 @@ const Province = () => {
     }
   }, [data]);
 
-  console.log(filteredItems);
-
   return (
     <Layout>
       <div className="col-span-full my-8 flex justify-between items-center">

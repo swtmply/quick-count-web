@@ -12,6 +12,7 @@ import { useFilteredItems } from "../context/FilteredItems";
 import { getBallotCasts, getPositions } from "../lib/queries";
 import { sessionOptions } from "../lib/session";
 import NumberFormat from "react-number-format";
+import RingChart from "../components/RingChart";
 
 export interface Position {
   position_id: string;
@@ -63,6 +64,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Layout>
+        {/* <div className="col-span-full grid grid-cols-8 gap-3">
+          <div className="col-span-5 bg-white shadow-md rounded p-4 divide-x grid grid-cols-3">
+            <RingChart />
+            <RingChart />
+            <RingChart />
+          </div>
+        </div> */}
+
         <div className="col-span-full my-8 flex justify-between items-center">
           <h1 className="font-bold text-3xl">Live counting of votes</h1>
 

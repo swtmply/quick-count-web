@@ -62,7 +62,7 @@ export default function National() {
                 <Link href={`/national/${region.reg_id}`} passHref>
                   <a className="font-semibold text-lg">{region.reg_name}</a>
                 </Link>
-                {positionsQuery.data && candidatesQuery.data && (
+                {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(
                       (position: Position) => ({

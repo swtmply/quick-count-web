@@ -64,7 +64,7 @@ const Region = () => {
                 <Link href={`/local/${reg_id}/${province.ref}`} passHref>
                   <a className="font-semibold text-lg">{province.province}</a>
                 </Link>
-                {positionsQuery.data && candidatesQuery.data && (
+                {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(
                       (position: Position) => ({

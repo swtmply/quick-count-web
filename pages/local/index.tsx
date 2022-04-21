@@ -3,21 +3,11 @@ import React from "react";
 import { useQuery } from "react-query";
 import { Layout } from "../../components/Layout";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import {
-  getCandidatesByLevel,
-  getPositionsByLevel,
-  getRegions,
-} from "../../lib/queries";
+import { getRegions } from "../../lib/queries";
 import { Region } from "../national/";
 
 const Local = () => {
   const { data, isLoading } = useQuery("regions", getRegions);
-  const positionsQuery = useQuery(["positions", "local"], () =>
-    getPositionsByLevel("2")
-  );
-  const candidatesQuery = useQuery(["candidates", "local"], () =>
-    getCandidatesByLevel("2")
-  );
 
   return (
     <Layout>
