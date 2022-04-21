@@ -31,9 +31,6 @@ const Province = () => {
   const positionsQuery = useQuery(["positions", "national"], () =>
     getPositionsByLevel("1")
   );
-  const candidatesQuery = useQuery(["candidates", "national"], () =>
-    getCandidatesByLevel("1")
-  );
 
   const [items, setItems] = useState<string[]>([]);
   const { filteredItems, setFilteredItems } = useFilteredItems();
@@ -47,7 +44,7 @@ const Province = () => {
       );
       setFilteredItems(data.municipalities);
     }
-  }, [data]);
+  }, [data, setFilteredItems]);
 
   return (
     <Layout>
@@ -72,7 +69,7 @@ const Province = () => {
                 <p className="font-semibold text-lg">
                   {municipality.municipal}
                 </p>
-                {positionsQuery.data && candidatesQuery.data && (
+                {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(
                       (position: Position) => ({
@@ -81,6 +78,7 @@ const Province = () => {
                           <MunicipalityCandidateList
                             municipality={municipality.mun_id}
                             position_code={position.position_code}
+                            prov_code={prov_id}
                           />
                         ),
                       })

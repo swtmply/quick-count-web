@@ -1,6 +1,3 @@
-import NumberFormat from "react-number-format";
-import ProgressBar from "../ProgressBar";
-import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { getAllVotesPerProvince } from "../../lib/queries";
 import LoadingSpinner from "../LoadingSpinner";
@@ -15,7 +12,6 @@ const ProvincialCandidateList = ({
   position_code: string;
   province: string;
 }) => {
-  // TODO: Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading } = useQuery(
     ["votes", province, position_code],
     () => getAllVotesPerProvince(province, position_code),

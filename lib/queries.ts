@@ -132,11 +132,14 @@ export async function getAllVotesPerProvince(
 // Get votes per region
 export async function getAllVotesPerMunicipality(
   municipality: string,
-  position: string
+  position: string,
+  province: string
 ) {
   try {
     const result = await axios
-      .get(`/api/votes?municipality=${municipality}&position=${position}`)
+      .get(
+        `/api/votes?municipality=${municipality}&position=${position}&province=${province}`
+      )
       .then((res) => res.data);
 
     return result;

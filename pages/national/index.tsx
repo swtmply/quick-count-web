@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -35,7 +36,7 @@ export default function National() {
       setItems(data.regions.map((region: Region) => region.reg_name));
       setFilteredItems(data.regions);
     }
-  }, [data]);
+  }, [data, setFilteredItems, filteredItems]);
 
   return (
     <Layout>
@@ -57,11 +58,14 @@ export default function National() {
             })
             .map((region: Region) => (
               <div className="w-full flex flex-col gap-2" key={region.id}>
-                <div>
-                  <Link href={`/national/${region.reg_id}`} passHref>
-                    <a className="font-semibold text-lg">{region.reg_name}</a>
-                  </Link>
-                </div>
+                <Link href={`/national/${region.reg_id}`} passHref>
+                  <a className="flex space-x-2 cursor-pointer font-semibold text-lg">
+                    <span>{region.reg_name}</span>
+                    <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
+                      <ArrowRightIcon className="w-5 h-5 " />
+                    </div>
+                  </a>
+                </Link>
                 {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(

@@ -26,12 +26,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   }
 
-  if (province) {
+  if (municipality) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY submitted_vote DESC",
-        values: [province, position],
+          "SELECT * FROM `report_vote_per_muni` WHERE mun_code=? AND position_id=? AND prov_code=? ORDER BY submitted_vote DESC",
+        values: [municipality, position, province],
       });
 
       res.status(200).json(result);
@@ -40,12 +40,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   }
 
-  if (municipality) {
+  if (province) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_muni` WHERE mun_code=? AND position_id=? ORDER BY submitted_vote DESC",
-        values: [municipality, position],
+          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY submitted_vote DESC",
+        values: [province, position],
       });
 
       res.status(200).json(result);

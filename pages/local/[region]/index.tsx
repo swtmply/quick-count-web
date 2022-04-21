@@ -1,9 +1,11 @@
+import { ArrowRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "../..";
 import CandidateList from "../../../components/CandidateList/CandidateList";
+import ProvincialCandidateList from "../../../components/CandidateList/ProvincialCandidateList";
 import FilterButton from "../../../components/FilterButton";
 import { Layout } from "../../../components/Layout";
 import LoadingSpinner from "../../../components/LoadingSpinner";
@@ -23,11 +25,8 @@ const Region = () => {
   const { data, isLoading } = useQuery(["regions", reg_id], () =>
     getProvinces(reg_id)
   );
-  const positionsQuery = useQuery(["positions", "local"], () =>
+  const positionsQuery = useQuery(["positions", "local", reg_id], () =>
     getPositionsByLevel("2")
-  );
-  const candidatesQuery = useQuery(["candidates", "local"], () =>
-    getCandidatesByLevel("2")
   );
 
   const [items, setItems] = useState<string[]>([]);
@@ -38,9 +37,7 @@ const Region = () => {
       setItems(data.provinces.map((province: Province) => province.province));
       setFilteredItems(data.provinces);
     }
-  }, [data]);
-
-  console.log(candidatesQuery.data, positionsQuery.data);
+  }, [data, setFilteredItems]);
 
   return (
     <Layout>
@@ -62,7 +59,12 @@ const Region = () => {
             .map((province: Province) => (
               <div className="w-full flex flex-col gap-2" key={province.id}>
                 <Link href={`/local/${reg_id}/${province.ref}`} passHref>
-                  <a className="font-semibold text-lg">{province.province}</a>
+                  <a className="font-semibold text-lg flex space-x-2 cursor-pointer">
+                    <span>{province.province}</span>
+                    <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
+                      <ArrowRightIcon className="w-5 h-5 " />
+                    </div>
+                  </a>
                 </Link>
                 {positionsQuery.data && (
                   <VoteTab
@@ -70,7 +72,8 @@ const Region = () => {
                       (position: Position) => ({
                         position: position.position,
                         content: (
-                          <CandidateList
+                          <ProvincialCandidateList
+                            province={province.ref}
                             position_code={position.position_code}
                           />
                         ),

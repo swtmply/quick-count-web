@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import React from "react";
 import { useQuery } from "react-query";
@@ -25,7 +26,9 @@ const Local = () => {
               className="col-span-2 shadow-md p-4 rounded-md bg-white"
             >
               <Link href={`/local/${region.reg_id}`} passHref>
-                <a className="font-semibold">{region.reg_name}</a>
+                <a className="flex space-x-2 cursor-pointer font-semibold text-lg">
+                  <span>{region.reg_name}</span>
+                </a>
               </Link>
             </div>
           ))

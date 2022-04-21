@@ -28,7 +28,7 @@ const LocalProvince = () => {
     getMunicipalities(prov_id)
   );
 
-  const positionsQuery = useQuery(["positions", "national"], () =>
+  const positionsQuery = useQuery(["positions", "national", prov_id], () =>
     getPositionsByLevel("3")
   );
 
@@ -44,7 +44,7 @@ const LocalProvince = () => {
       );
       setFilteredItems(data.municipalities);
     }
-  }, [data]);
+  }, [data, setFilteredItems]);
 
   return (
     <Layout>
@@ -76,6 +76,7 @@ const LocalProvince = () => {
                         position: position.position,
                         content: (
                           <MunicipalityCandidateList
+                            prov_code={prov_id}
                             municipality={municipality.mun_id}
                             position_code={position.position_code}
                           />

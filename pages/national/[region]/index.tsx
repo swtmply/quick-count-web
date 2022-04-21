@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -30,11 +31,11 @@ const Region = () => {
     getProvinces(reg_id)
   );
 
-  const positionsQuery = useQuery(["positions", "national"], () =>
+  const positionsQuery = useQuery(["positions", "national", reg_id], () =>
     getPositionsByLevel("1")
   );
 
-  const candidatesQuery = useQuery(["candidates", "national"], () =>
+  const candidatesQuery = useQuery(["candidates", "national", reg_id], () =>
     getCandidatesByLevel("1")
   );
 
@@ -46,7 +47,7 @@ const Region = () => {
       setItems(data.provinces.map((province: Province) => province.province));
       setFilteredItems(data.provinces);
     }
-  }, [data]);
+  }, [data, setFilteredItems]);
 
   return (
     <Layout>
@@ -69,7 +70,12 @@ const Region = () => {
             .map((province: Province) => (
               <div className="w-full flex flex-col gap-2" key={province.id}>
                 <Link href={`/national/${reg_id}/${province.ref}`} passHref>
-                  <a className="font-semibold text-lg">{province.province}</a>
+                  <a className="font-semibold text-lg flex space-x-2 cursor-pointer">
+                    <span>{province.province}</span>
+                    <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
+                      <ArrowRightIcon className="w-5 h-5 " />
+                    </div>
+                  </a>
                 </Link>
                 {positionsQuery.data && candidatesQuery.data && (
                   <VoteTab

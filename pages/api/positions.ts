@@ -30,7 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const positions: any = await query({
-      query: "SELECT * FROM `positions`",
+      query: "SELECT * FROM `positions` WHERE level_id=1",
     });
 
     if (positions.length === 0)

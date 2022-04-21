@@ -59,7 +59,7 @@ const Home: NextPage = () => {
       setFilteredItems(data.positions);
       setItems(data.positions.map((item: Position) => item.position));
     }
-  }, [data]);
+  }, [data, setFilteredItems]);
 
   return (
     <>
