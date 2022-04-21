@@ -30,7 +30,13 @@ const RegionalCandidateList = ({
   return (
     <>
       {isLoading ? (
-        <LoadingSpinner />
+        <tbody>
+          <tr>
+            <td colSpan={4}>
+              <LoadingSpinner />
+            </td>
+          </tr>
+        </tbody>
       ) : (
         votes && <Votes votes={votes} toSlice={toSlice!} />
       )}

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "../..";
-import CandidateList from "../../../components/CandidateList/CandidateList";
+import ProvincialBallotCast from "../../../components/BallotCasts/ProvincialBallotCast";
 import ProvincialCandidateList from "../../../components/CandidateList/ProvincialCandidateList";
 import FilterButton from "../../../components/FilterButton";
 import { Layout } from "../../../components/Layout";
@@ -69,14 +69,17 @@ const Region = () => {
             })
             .map((province: Province) => (
               <div className="w-full flex flex-col gap-2" key={province.id}>
-                <Link href={`/national/${reg_id}/${province.ref}`} passHref>
-                  <a className="font-semibold text-lg flex space-x-2 cursor-pointer">
-                    <span>{province.province}</span>
-                    <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
-                      <ArrowRightIcon className="w-5 h-5 " />
-                    </div>
-                  </a>
-                </Link>
+                <div className="flex justify-between">
+                  <Link href={`/national/${reg_id}/${province.ref}`} passHref>
+                    <a className="font-semibold text-lg flex space-x-2 cursor-pointer">
+                      <span>{province.province}</span>
+                      <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
+                        <ArrowRightIcon className="w-5 h-5 " />
+                      </div>
+                    </a>
+                  </Link>
+                  <ProvincialBallotCast province={province.ref} />
+                </div>
                 {positionsQuery.data && candidatesQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(

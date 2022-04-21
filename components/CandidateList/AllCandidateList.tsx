@@ -19,7 +19,13 @@ const AllCandidateList = ({ position_code }: { position_code: string }) => {
   return (
     <>
       {isLoading ? (
-        <LoadingSpinner />
+        <tbody>
+          <tr>
+            <td colSpan={4}>
+              <LoadingSpinner />
+            </td>
+          </tr>
+        </tbody>
       ) : (
         <tbody>
           {votes.map((candidate: any, idx: number) => {

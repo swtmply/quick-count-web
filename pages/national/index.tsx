@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "..";
+import RegionalBallotCast from "../../components/BallotCasts/RegionalBallotCast";
 import CandidateList from "../../components/CandidateList/CandidateList";
 import RegionalCandidateList from "../../components/CandidateList/RegionalCandidateList";
 import FilterButton from "../../components/FilterButton";
@@ -58,14 +59,17 @@ export default function National() {
             })
             .map((region: Region) => (
               <div className="w-full flex flex-col gap-2" key={region.id}>
-                <Link href={`/national/${region.reg_id}`} passHref>
-                  <a className="flex space-x-2 cursor-pointer font-semibold text-lg">
-                    <span>{region.reg_name}</span>
-                    <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
-                      <ArrowRightIcon className="w-5 h-5 " />
-                    </div>
-                  </a>
-                </Link>
+                <div className="flex justify-between">
+                  <Link href={`/national/${region.reg_id}`} passHref>
+                    <a className="flex space-x-2 cursor-pointer font-semibold text-lg">
+                      <span>{region.reg_name}</span>
+                      <div className="rounded-full bg-indigo-1000 text-white w-7 h-7 flex justify-center items-center">
+                        <ArrowRightIcon className="w-5 h-5 " />
+                      </div>
+                    </a>
+                  </Link>
+                  <RegionalBallotCast region={region.reg_id} />
+                </div>
                 {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(

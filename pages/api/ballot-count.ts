@@ -8,6 +8,38 @@ export default withIronSessionApiRoute(handler, sessionOptions);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.session.user) {
+      const {
+        query: { region, province, municipality },
+      } = req;
+
+      if (region) {
+        const result = await query({
+          query: "SELECT * FROM `ballotperreg` WHERE region_code=?",
+          values: [region],
+        });
+
+        return res.status(200).json(result);
+      }
+
+      if (province && municipality) {
+        const result = await query({
+          query:
+            "SELECT * FROM `ballotpermun` WHERE prov_code=? AND mun_code=?",
+          values: [province, municipality],
+        });
+
+        return res.status(200).json(result);
+      }
+
+      if (province) {
+        const result = await query({
+          query: "SELECT * FROM `ballotperprov` WHERE prov_code=?",
+          values: [province],
+        });
+
+        return res.status(200).json(result);
+      }
+
       const result = await query({
         query: "SELECT * FROM `TotalBallotCast`",
       });

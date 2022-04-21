@@ -25,7 +25,13 @@ const CandidateList = ({ position_code }: { position_code: string }) => {
   return (
     <>
       {isLoading ? (
-        <LoadingSpinner />
+        <tbody>
+          <tr>
+            <td colSpan={4}>
+              <LoadingSpinner />
+            </td>
+          </tr>
+        </tbody>
       ) : (
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         votes && <Votes votes={votes} toSlice={toSlice!} />

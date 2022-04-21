@@ -1,9 +1,13 @@
 import { Tab } from "@headlessui/react";
+import { ArrowsExpandIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
+import { SelectedPositionContext } from "../context/SelectedPosition";
 import { TabProps } from "../types";
 
 const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
+  const { setSelectedPosition } = useContext(SelectedPositionContext);
+
   return (
     <Tab.Group>
       <div className="flex flex-col shadow-md col-span-full p-4 rounded-md bg-white">
@@ -11,9 +15,6 @@ const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
           <Tab.List className="font-bold flex gap-8 text-lg items-center relative">
             {tabs.map((tab, idx) => (
               <Tab
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                before={tab.position}
                 key={idx}
                 className={({ selected }) =>
                   classNames(
@@ -26,6 +27,11 @@ const VoteTab = ({ tabs }: { tabs: TabProps[] }) => {
               </Tab>
             ))}
           </Tab.List>
+          <button
+            className={classNames("bg-[#1774D1]", "p-2 mb-2 rounded-full")}
+          >
+            <ArrowsExpandIcon className="w-5 h-5 text-white" />
+          </button>
         </div>
         <hr className="mb-2" />
         <Tab.Panels>

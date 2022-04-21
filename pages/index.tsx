@@ -97,7 +97,9 @@ const Home: NextPage = () => {
         </div>
 
         {isLoading ? (
-          <LoadingSpinner />
+          <div className="col-span-full flex justify-center items-center w-full">
+            <LoadingSpinner />
+          </div>
         ) : (
           <motion.div className="col-span-full grid grid-cols-12 auto-rows-max gap-10">
             {filteredItems

@@ -158,3 +158,45 @@ export async function getBallotCasts() {
     console.error(error);
   }
 }
+
+// Get regional ballot cast
+export async function getRegionalBallotCast(region: string) {
+  try {
+    const result = await axios
+      .get(`/api/ballot-count?region=${region}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get provincial ballot cast
+export async function getProvincialBallotCast(province: string) {
+  try {
+    const result = await axios
+      .get(`/api/ballot-count?province=${province}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get municipal ballot cast
+export async function getMunicipalBallotCast(
+  province: string,
+  municipal: string
+) {
+  try {
+    const result = await axios
+      .get(`/api/ballot-count?municipality=${municipal}&province=${province}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

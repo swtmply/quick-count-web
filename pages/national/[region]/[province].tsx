@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Position } from "../..";
+import MunicipalBallotCast from "../../../components/BallotCasts/MunicipalBallotCast";
 import CandidateList from "../../../components/CandidateList/CandidateList";
 import MunicipalityCandidateList from "../../../components/CandidateList/MunicipalityCandidateList";
 import FilterButton from "../../../components/FilterButton";
@@ -66,9 +67,15 @@ const Province = () => {
             })
             .map((municipality: Municipality, idx: number) => (
               <div className="w-full flex flex-col gap-2" key={idx}>
-                <p className="font-semibold text-lg">
-                  {municipality.municipal}
-                </p>
+                <div className="flex justify-between">
+                  <p className="font-semibold text-lg">
+                    {municipality.municipal}
+                  </p>
+                  <MunicipalBallotCast
+                    province={prov_id}
+                    municipal={municipality.mun_id}
+                  />
+                </div>
                 {positionsQuery.data && (
                   <VoteTab
                     tabs={positionsQuery?.data.positions.map(
