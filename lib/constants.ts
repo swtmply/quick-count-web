@@ -39,3 +39,5 @@ export const graphConfig = {
   type: "doughnut",
   data: graphData,
 };
+
+const imageRender = "<img src={`data:image/jpeg;base64,${image}`}>";

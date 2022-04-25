@@ -14,6 +14,9 @@ import { sessionOptions } from "../lib/session";
 import NumberFormat from "react-number-format";
 import RingChart from "../components/RingChart";
 
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 export interface Position {
   position_id: string;
   position: string;
@@ -64,13 +67,29 @@ const Home: NextPage = () => {
   return (
     <>
       <Layout>
-        {/* <div className="col-span-full grid grid-cols-8 gap-3">
-          <div className="col-span-5 bg-white shadow-md rounded p-4 divide-x grid grid-cols-3">
+        <h1 className="font-bold text-3xl col-span-4 mb-4">Votes Statistics</h1>
+
+        <div className="col-span-full grid grid-cols-8 gap-3">
+          <div className="col-span-full flex gap-2">
             <RingChart />
-            <RingChart />
-            <RingChart />
+
+            {ballotCountLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <>
+                <CircularProgress
+                  ballotCount={ballotCount}
+                  title="Election Returns Transmitted"
+                />
+
+                <CircularProgress
+                  ballotCount={ballotCount}
+                  title="Voter Turnout"
+                />
+              </>
+            )}
           </div>
-        </div> */}
+        </div>
 
         <div className="col-span-full my-8 flex justify-between items-center">
           <h1 className="font-bold text-3xl">Live counting of votes</h1>
@@ -108,8 +127,8 @@ const Home: NextPage = () => {
                   return position;
                 }
               })
-              .map((position: Position) => (
-                <Card key={position.position_id} position={position} />
+              .map((position: Position, idx: number) => (
+                <Card key={idx} position={position} />
               ))}
           </motion.div>
         )}
@@ -120,3 +139,66 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+type CircularProgressType = {
+  ballotCount: any;
+  title: string;
+};
+
+function CircularProgress({ ballotCount, title }: CircularProgressType) {
+  const ERT =
+    (ballotCount[0].transmitted_prec / ballotCount[0].total_precinct) * 100;
+  const VT =
+    (ballotCount[0].total_ballot_cast / ballotCount[0].total_voters) * 100;
+
+  return (
+    <div className="w-64 bg-white shadow-md rounded h-full p-4 flex flex-col justify-between items-center">
+      <p className="font-bold text-xl">{title}</p>
+      <div className="w-32 h-32">
+        <CircularProgressbar
+          value={title !== "Voter Turnout" ? ERT : VT}
+          text={`${(title !== "Voter Turnout" ? ERT : VT).toFixed(2)}%`}
+          styles={buildStyles({
+            pathColor: `rgba(96, 80, 220, ${
+              title !== "Voter Turnout" ? ERT : VT
+            })`,
+            textColor: `rgb(96 80 220)`,
+          })}
+        />
+      </div>
+      <p className="text-sm text-center">
+        {title !== "Voter Turnout" ? (
+          <p>
+            <NumberFormat
+              value={ballotCount[0].transmitted_prec}
+              thousandSeparator
+              displayType="text"
+            />{" "}
+            out of{" "}
+            <NumberFormat
+              value={ballotCount[0].total_precinct}
+              thousandSeparator
+              displayType="text"
+            />{" "}
+            clustered precincts
+          </p>
+        ) : (
+          <p>
+            <NumberFormat
+              value={ballotCount[0].total_ballot_cast}
+              thousandSeparator
+              displayType="text"
+            />{" "}
+            out of{" "}
+            <NumberFormat
+              value={ballotCount[0].total_voters}
+              thousandSeparator
+              displayType="text"
+            />{" "}
+            voters
+          </p>
+        )}
+      </p>
+    </div>
+  );
+}

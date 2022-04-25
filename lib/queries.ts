@@ -200,3 +200,15 @@ export async function getMunicipalBallotCast(
     console.error(error);
   }
 }
+
+export async function getTopCandidates(top: number) {
+  try {
+    const result = await axios
+      .get(`/api/votes?top=${top}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

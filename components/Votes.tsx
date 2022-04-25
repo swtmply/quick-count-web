@@ -10,7 +10,7 @@ const Votes = ({ votes, toSlice }: { votes: []; toSlice: number }) => {
 
         if (candidate)
           return (
-            <React.Fragment>
+            <React.Fragment key={idx}>
               <tr className="text-left">
                 <td
                   rowSpan={2}

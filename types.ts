@@ -14,8 +14,11 @@ export interface User {
 
 export interface Candidate {
   id?: number;
+  submitted_vote: number;
+  candidate_id: string;
   name: string;
   position_code: string;
+  candidate_name: string;
 }
 
 export type CardProgressBarColors = {
