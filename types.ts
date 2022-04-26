@@ -10,6 +10,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  role_code: string;
 }
 
 export interface Candidate {

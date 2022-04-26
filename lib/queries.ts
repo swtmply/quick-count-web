@@ -212,3 +212,74 @@ export async function getTopCandidates(top: number) {
     console.error(error);
   }
 }
+
+// get all incidents type
+export async function getIncidents(page: number) {
+  try {
+    const result = await axios
+      .get(`/api/incidents?page=${page}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// get update incident
+export async function updateIncidentRead(id: number) {
+  try {
+    const result = await axios
+      .post(`/api/incidents?read=1`, { id })
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// get update incident
+export async function updateIncidentStatus({
+  id,
+  newResolve,
+}: {
+  id: number;
+  newResolve: string;
+}) {
+  try {
+    const result = await axios
+      .post(`/api/incidents?resolve=1`, { id, newResolve })
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Search Incindent
+export async function searchIncident(incident: string) {
+  try {
+    const result = await axios
+      .post(`/api/incidents`, { incident })
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// get update incident
+export async function getImageIncidentReport(ref_id: string) {
+  try {
+    const result = await axios
+      .get(`/api/image?type=IR&ref_id=${ref_id}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

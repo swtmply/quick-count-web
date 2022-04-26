@@ -40,4 +40,6 @@ export const graphConfig = {
   data: graphData,
 };
 
+export const PAGE_SIZE = 10;
+
 const imageRender = "<img src={`data:image/jpeg;base64,${image}`}>";

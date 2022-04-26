@@ -23,12 +23,12 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       user[0].password.replace("$2y$", "$2a$")
     );
 
-    if (!isMatched)
+    if (!isMatched || user[0].role_code === "WCH")
       return res
         .status(203)
         .json({ message: "Invalid Credentials, Please try again." });
 
-    req.session.user = user;
+    req.session.user = user[0];
     await req.session.save();
 
     return res.status(200).json({ ok: true });

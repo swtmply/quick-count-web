@@ -1,18 +1,97 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { SearchIcon, SelectorIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  SearchIcon,
+  SelectorIcon,
+} from "@heroicons/react/outline";
+import React, { useEffect, useState } from "react";
 import { AdminLayout } from "../../components/Layout";
 import { motion } from "framer-motion";
 import IncidentModal from "../../components/IncidentModal";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  getIncidents,
+  searchIncident,
+  updateIncidentRead,
+} from "../../lib/queries";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { PAGE_SIZE } from "../../lib/constants";
 
-const incidentType = ["All", "Operational", "Logistical", "Others"];
+const incidentType = [
+  "All",
+  "Peace & Order",
+  "Logistics",
+  "Operational",
+  "System",
+  "Others",
+];
+
+export interface Incident {
+  id: number;
+  ref_id: string;
+  details: string;
+  type: string;
+  precinct_id: string;
+  pollplace_id: string;
+  watcher_id: string;
+  status: string;
+  isRead: number;
+  pollplace: string;
+  pollstreet: string;
+}
 
 const IncidentReport = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>(incidentType[0]);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useQuery(
+    ["incidents", page],
+    () => getIncidents(page),
+    { keepPreviousData: true }
+  );
 
-  // TODO: filter by type
-  // TODO: search
+  const { mutate } = useMutation(updateIncidentRead, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("incidents");
+    },
+  });
+
+  // popup
+  const [selectedItem, setSelectedItem] = useState<Incident | null>(null);
+
+  // filter by type
+  const [selectedFilter, setSelectedFilter] = useState<string>(incidentType[0]);
+  const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setFilteredIncidents(data.incidents);
+
+      setPageLimit(Math.ceil(data.count.value / PAGE_SIZE));
+    }
+  }, [data]);
+
+  // search
+  const [searchFilter, setSearchFilter] = useState("");
+  const { mutate: mutateSearch, data: searchData } =
+    useMutation(searchIncident);
+
+  useEffect(() => {
+    if (searchFilter === "") {
+      setFilteredIncidents(data?.incidents);
+      setPageLimit(Math.ceil(data?.count.value / PAGE_SIZE));
+    }
+  }, [searchFilter, data?.incidents, data?.count]);
+
+  useEffect(() => {
+    if (searchData) {
+      setFilteredIncidents(searchData.incidents);
+      setPageLimit(Math.ceil(searchData.count.value / PAGE_SIZE));
+    }
+  }, [searchData]);
+
+  // pages
+  const [pageLimit, setPageLimit] = useState(0);
 
   return (
     <AdminLayout>
@@ -65,27 +144,36 @@ const IncidentReport = () => {
           </Listbox>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md flex items-center col-span-3 col-end-13">
+        <form
+          className="bg-white rounded-lg shadow-md flex items-center col-span-3 col-end-13"
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            mutateSearch(searchFilter);
+          }}
+        >
           <input
             className="text-gray-800 bg-transparent placeholder:text-gray-300 outline-none text-sm px-4 py-2 w-full "
             type="text"
-            // onChange={handleFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
             placeholder="Search reference ID"
           />
-          <button className="bg-indigo-1000 hover:bg-indigo-900 h-full rounded-tr-md rounded-br-md text-white px-2">
+          <button
+            type="submit"
+            className="bg-indigo-1000 hover:bg-indigo-900 h-full rounded-tr-md rounded-br-md text-white px-2"
+          >
             <SearchIcon className="w-6 h-6" />
           </button>
-        </div>
+        </form>
       </div>
 
       {/* Table */}
-      <table className="col-span-full">
+      <table className="col-span-full table-fixed">
         <thead className="text-left text-white bg-indigo-1000 text-sm font-semibold">
           <tr>
-            <th className="p-4">Incident No.</th>
-            <th>Reference No.</th>
+            <th className="pl-4 py-4">Reference No.</th>
             <th>Username</th>
-            <th>Title</th>
+            <th>Description</th>
             <th>Type</th>
             <th>Cluster Precinct</th>
             <th>Polling Site</th>
@@ -93,62 +181,76 @@ const IncidentReport = () => {
           </tr>
         </thead>
         <motion.tbody className="bg-white">
-          <motion.tr layoutId="1" onClick={() => setSelectedItem("1")}>
-            <td className="p-4">1</td>
-            <td>REF_0892031</td>
-            <td>WCH_0101004</td>
-            <td>My barilan d2</td>
-            <td>Logistical</td>
-            <td>01010015</td>
-            <td>AGTANGAO ELEMENTARY SCHOOL</td>
-            <td>Resolved</td>
-          </motion.tr>
-          <motion.tr layoutId="2" onClick={() => setSelectedItem("2")}>
-            <td className="p-4">1</td>
-            <td>REF_0892031</td>
-            <td>WCH_0101004</td>
-            <td>My barilan d2</td>
-            <td>Logistical</td>
-            <td>01010015</td>
-            <td>AGTANGAO ELEMENTARY SCHOOL</td>
-            <td>Resolved</td>
-          </motion.tr>
-          <motion.tr layoutId="3" onClick={() => setSelectedItem("3")}>
-            <td className="p-4">1</td>
-            <td>REF_0892031</td>
-            <td>WCH_0101004</td>
-            <td>My barilan d2</td>
-            <td>Logistical</td>
-            <td>01010015</td>
-            <td>AGTANGAO ELEMENTARY SCHOOL</td>
-            <td>Resolved</td>
-          </motion.tr>
-          <motion.tr
-            className="font-bold"
-            layoutId="4"
-            onClick={() => setSelectedItem("4")}
-          >
-            <td className="p-4">1</td>
-            <td>REF_0892031</td>
-            <td>WCH_0101004</td>
-            <td>My barilan d2</td>
-            <td>Logistical</td>
-            <td>01010015</td>
-            <td>AGTANGAO ELEMENTARY SCHOOL</td>
-            <td>Unresolved</td>
-          </motion.tr>
-          <motion.tr layoutId="5" onClick={() => setSelectedItem("5")}>
-            <td className="p-4">1</td>
-            <td>REF_0892031</td>
-            <td>WCH_0101004</td>
-            <td>My barilan d2</td>
-            <td>Logistical</td>
-            <td>01010015</td>
-            <td>AGTANGAO ELEMENTARY SCHOOL</td>
-            <td>Resolved</td>
-          </motion.tr>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              {filteredIncidents
+                ?.filter((incident: Incident) => {
+                  if (selectedFilter === "All") return incident;
+
+                  if (selectedFilter === "Others") {
+                    if (!incidentType.includes(incident.type)) return incident;
+                  }
+
+                  if (incident.type === selectedFilter) return incident;
+                })
+                .map((incident: Incident) => (
+                  <motion.tr
+                    key={incident.id}
+                    layoutId={incident.id.toString()}
+                    onClick={() => {
+                      setSelectedItem(incident);
+
+                      mutate(incident.id);
+                    }}
+                    className={
+                      !incident.isRead
+                        ? "font-bold cursor-pointer"
+                        : "cursor-pointer"
+                    }
+                  >
+                    <td className="py-4 pl-4 max-w-xs">{incident.ref_id}</td>
+                    <td className="">{incident.watcher_id}</td>
+                    <td className="truncate max-w-[6.5rem] pr-2">
+                      {incident.details}
+                    </td>
+                    <td className="">{incident.type || "None"}</td>
+                    <td className="">
+                      {incident.pollplace_id || incident.precinct_id}
+                    </td>
+                    <td className="truncate max-w-[6rem] pr-2">
+                      {incident.pollplace || "None"}
+                    </td>
+                    <td>{incident.status}</td>
+                  </motion.tr>
+                ))}
+            </>
+          )}
         </motion.tbody>
       </table>
+
+      <div className="col-span-full flex justify-end gap-3 items-center">
+        <button
+          className="p-1 rounded text-white bg-indigo-1000 hover:bg-indigo-900 disabled:bg-neutral-200 disabled:text-neutral-400"
+          disabled={1 === page}
+        >
+          <ChevronLeftIcon
+            className="w-6 h-6"
+            onClick={() => setPage((prev) => (prev -= 1))}
+          />
+        </button>
+        {page}
+        <button
+          className="p-1 rounded text-white bg-indigo-1000 hover:bg-indigo-900 disabled:bg-neutral-200 disabled:text-neutral-400"
+          disabled={pageLimit === page}
+        >
+          <ChevronRightIcon
+            className="w-6 h-6"
+            onClick={() => setPage((prev) => (prev += 1))}
+          />
+        </button>
+      </div>
 
       <IncidentModal
         selectedItem={selectedItem}
