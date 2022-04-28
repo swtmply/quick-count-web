@@ -243,13 +243,15 @@ export async function updateIncidentRead(id: number) {
 export async function updateIncidentStatus({
   id,
   newResolve,
+  resolution,
 }: {
   id: number;
   newResolve: string;
+  resolution: string;
 }) {
   try {
     const result = await axios
-      .post(`/api/incidents?resolve=1`, { id, newResolve })
+      .post(`/api/incidents?resolve=1`, { id, newResolve, resolution })
       .then((res) => res.data);
 
     return result;
@@ -263,6 +265,25 @@ export async function searchIncident(incident: string) {
   try {
     const result = await axios
       .post(`/api/incidents`, { incident })
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// update incident type
+export async function updateIncidentType({
+  id,
+  type,
+}: {
+  id: number;
+  type: string;
+}) {
+  try {
+    const result = await axios
+      .post(`/api/incidents?type=1`, { id, newType: type })
       .then((res) => res.data);
 
     return result;

@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { AdminLayout } from "../../components/Layout";
 import { motion } from "framer-motion";
-import IncidentModal from "../../components/IncidentModal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   getIncidents,
@@ -17,8 +16,9 @@ import {
 } from "../../lib/queries";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { PAGE_SIZE } from "../../lib/constants";
+import Link from "next/link";
 
-const incidentType = [
+export const incidentType = [
   "All",
   "Peace & Order",
   "Logistics",
@@ -39,6 +39,7 @@ export interface Incident {
   isRead: number;
   pollplace: string;
   pollstreet: string;
+  resolution: string | null;
 }
 
 const IncidentReport = () => {
@@ -55,9 +56,6 @@ const IncidentReport = () => {
       queryClient.invalidateQueries("incidents");
     },
   });
-
-  // popup
-  const [selectedItem, setSelectedItem] = useState<Incident | null>(null);
 
   // filter by type
   const [selectedFilter, setSelectedFilter] = useState<string>(incidentType[0]);
@@ -103,45 +101,10 @@ const IncidentReport = () => {
       <div className="col-span-full grid grid-cols-12 mb-8">
         <div className="flex gap-4 col-span-4 items-center">
           <p className="min-w-max">Filter by:</p>
-          <Listbox
-            as="div"
-            className="w-full relative"
-            value={selectedFilter}
-            onChange={setSelectedFilter}
-          >
-            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-              <span className="block truncate">{selectedFilter}</span>
-              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon
-                  className="w-5 h-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </span>
-            </Listbox.Button>
-
-            <Transition
-              as={React.Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {incidentType.map((type: string) => (
-                  <Listbox.Option
-                    className={({ active }) =>
-                      `cursor-default select-none relative py-2 pl-3 pr-4 ${
-                        active ? "text-blue-900 bg-blue-100" : "text-gray-900"
-                      }`
-                    }
-                    key={type}
-                    value={type}
-                  >
-                    {type}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </Listbox>
+          <Dropdown
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+          />
         </div>
 
         <form
@@ -168,22 +131,22 @@ const IncidentReport = () => {
       </div>
 
       {/* Table */}
-      <table className="col-span-full table-fixed">
-        <thead className="text-left text-white bg-indigo-1000 text-sm font-semibold">
-          <tr>
-            <th className="pl-4 py-4">Reference No.</th>
-            <th>Username</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Cluster Precinct</th>
-            <th>Polling Site</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <motion.tbody className="bg-white">
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <table className="col-span-full table-fixed">
+          <thead className="text-left text-white bg-indigo-1000 text-sm font-semibold">
+            <tr>
+              <th className="pl-4 py-4">Reference No.</th>
+              <th>Username</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Cluster Precinct</th>
+              <th>Polling Site</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <motion.tbody className="bg-white">
             <>
               {filteredIncidents
                 ?.filter((incident: Incident) => {
@@ -196,39 +159,42 @@ const IncidentReport = () => {
                   if (incident.type === selectedFilter) return incident;
                 })
                 .map((incident: Incident) => (
-                  <motion.tr
+                  <Link
                     key={incident.id}
-                    layoutId={incident.id.toString()}
-                    onClick={() => {
-                      setSelectedItem(incident);
-
-                      mutate(incident.id);
-                    }}
-                    className={
-                      !incident.isRead
-                        ? "font-bold cursor-pointer"
-                        : "cursor-pointer"
-                    }
+                    href={`/dashboard/${incident.id}`}
+                    passHref
                   >
-                    <td className="py-4 pl-4 max-w-xs">{incident.ref_id}</td>
-                    <td className="">{incident.watcher_id}</td>
-                    <td className="truncate max-w-[6.5rem] pr-2">
-                      {incident.details}
-                    </td>
-                    <td className="">{incident.type || "None"}</td>
-                    <td className="">
-                      {incident.pollplace_id || incident.precinct_id}
-                    </td>
-                    <td className="truncate max-w-[6rem] pr-2">
-                      {incident.pollplace || "None"}
-                    </td>
-                    <td>{incident.status}</td>
-                  </motion.tr>
+                    <motion.tr
+                      layoutId={incident.id.toString()}
+                      onClick={() => {
+                        mutate(incident.id);
+                      }}
+                      className={
+                        !incident.isRead
+                          ? "font-bold cursor-pointer"
+                          : "cursor-pointer"
+                      }
+                    >
+                      <td className="py-4 pl-4 max-w-xs">{incident.ref_id}</td>
+                      <td className="">{incident.watcher_id}</td>
+                      <td className="truncate max-w-[6.5rem] pr-2">
+                        {incident.details}
+                      </td>
+                      <td className="">{incident.type || "None"}</td>
+                      <td className="">
+                        {incident.pollplace_id || incident.precinct_id}
+                      </td>
+                      <td className="truncate max-w-[6rem] pr-2">
+                        {incident.pollplace || "None"}
+                      </td>
+                      <td>{incident.status}</td>
+                    </motion.tr>
+                  </Link>
                 ))}
             </>
-          )}
-        </motion.tbody>
-      </table>
+          </motion.tbody>
+        </table>
+      )}
 
       <div className="col-span-full flex justify-end gap-3 items-center">
         <button
@@ -251,13 +217,54 @@ const IncidentReport = () => {
           />
         </button>
       </div>
-
-      <IncidentModal
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      />
     </AdminLayout>
   );
 };
 
 export default IncidentReport;
+export const Dropdown = ({
+  selectedFilter,
+  setSelectedFilter,
+}: {
+  selectedFilter: string;
+  setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  return (
+    <Listbox
+      as="div"
+      className="w-full relative"
+      value={selectedFilter}
+      onChange={setSelectedFilter}
+    >
+      <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+        <span className="block truncate">{selectedFilter}</span>
+        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+          <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+        </span>
+      </Listbox.Button>
+
+      <Transition
+        as={React.Fragment}
+        leave="transition ease-in duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          {incidentType.map((type: string) => (
+            <Listbox.Option
+              className={({ active }) =>
+                `cursor-default select-none relative py-2 pl-3 pr-4 ${
+                  active ? "text-blue-900 bg-blue-100" : "text-gray-900"
+                }`
+              }
+              key={type}
+              value={type}
+            >
+              {type}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </Transition>
+    </Listbox>
+  );
+};

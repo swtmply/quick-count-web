@@ -16,9 +16,9 @@ export default async function query({
 }: {
   query: string;
   values?: any;
-}) {
+}): Promise<any> {
   try {
-    const results = await db.query(query, values);
+    const results: any[] = await db.query(query, values);
     await db.end();
     return results;
   } catch (error) {

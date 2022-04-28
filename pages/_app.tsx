@@ -4,6 +4,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import SelectedPositionProvider from "../context/SelectedPosition";
 import { FilteredItemsProvider } from "../context/FilteredItems";
+import { SelectedImageProvider } from "../context/SelectedImage";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <FilteredItemsProvider>
           <SelectedPositionProvider>
-            <Component {...pageProps} />
+            <SelectedImageProvider>
+              <Component {...pageProps} />
+            </SelectedImageProvider>
           </SelectedPositionProvider>
         </FilteredItemsProvider>
       </Hydrate>

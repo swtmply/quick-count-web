@@ -11,15 +11,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const {
     method,
-    body: { id, newResolve, incident },
-    query: { read, resolve, page },
+    body: { id, newResolve, incident, resolution, newType },
+    query: { read, resolve, page, type },
   } = req;
 
   if (method === "GET") {
     try {
       const incidents: any = await query({
         query:
-          "SELECT `incidents`.id, `incidents`.ref_id, `incidents`.details, `incidents`.precinct_id, `incidents`.pollplace_id, `incidents`.watcher_id, `incidents`.status, `incidents`.isRead, `incidents`.type, `precincts`.pollplace, `precincts`.`pollstreet` FROM `incidents` LEFT JOIN `precincts` ON `incidents`.precinct_id=`precincts`.`precinct_id` LIMIT ?,?",
+          "SELECT `incidents`.id, `incidents`.ref_id, `incidents`.details, `incidents`.precinct_id, `incidents`.pollplace_id, `incidents`.watcher_id, `incidents`.status, `incidents`.isRead, `incidents`.type, `incidents`.resolution, `precincts`.pollplace, `precincts`.`pollstreet` FROM `incidents` LEFT JOIN `precincts` ON `incidents`.precinct_id=`precincts`.`precinct_id` LIMIT ?,?",
         values: [PAGE_SIZE * (Number(page) - 1), PAGE_SIZE],
       });
 
@@ -34,6 +34,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (method === "POST") {
+    if (type) {
+      try {
+        const incidents: any = await query({
+          query: "UPDATE `incidents` SET type=? WHERE id=?",
+          values: [newType, id],
+        });
+
+        res.status(200).json(incidents);
+      } catch (error) {
+        res.status(500).json({ message: (error as Error).message });
+      }
+    }
+
     if (read) {
       try {
         const incidents: any = await query({
@@ -50,8 +63,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (resolve) {
       try {
         const incidents: any = await query({
-          query: "UPDATE `incidents` SET status=? WHERE id=?",
-          values: [newResolve, id],
+          query: "UPDATE `incidents` SET status=?, resolution=? WHERE id=?",
+          values: [newResolve, resolution, id],
         });
 
         res.status(200).json(incidents);

@@ -6,7 +6,7 @@ import { UserButton } from "./Header/UserButton";
 export const Layout: React.FC = ({ children }) => {
   return (
     <div className="font-poppins bg-neutral-100">
-      <header className="flex items-center justify-between bg-indigo-1000 text-white p-4 px-8 fixed top-0 z-50 w-screen">
+      <header className="flex items-center justify-between bg-indigo-1000 text-white p-4 px-8 fixed top-0 z-10 w-screen">
         {/* Left side */}
         <section className="flex items-center gap-2">
           <Image
@@ -41,7 +41,7 @@ export const Layout: React.FC = ({ children }) => {
 export const AdminLayout: React.FC = ({ children }) => {
   return (
     <div className="font-poppins bg-neutral-100">
-      <header className="flex items-center justify-between bg-indigo-1000 text-white p-4 px-8 fixed top-0 z-50 w-screen">
+      <header className="flex items-center justify-between bg-indigo-1000 text-white p-4 px-8 fixed top-0 z-10 w-screen">
         {/* Left side */}
         <section className="flex items-center gap-2">
           <Image
