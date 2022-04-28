@@ -40,6 +40,7 @@ export interface Incident {
   pollplace: string;
   pollstreet: string;
   resolution: string | null;
+  created_at: any;
 }
 
 const IncidentReport = () => {
@@ -142,7 +143,8 @@ const IncidentReport = () => {
               <th>Description</th>
               <th>Type</th>
               <th>Cluster Precinct</th>
-              <th>Polling Site</th>
+              <th>Polling Site </th>
+              <th>Date Submitted</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -169,11 +171,13 @@ const IncidentReport = () => {
                       onClick={() => {
                         mutate(incident.id);
                       }}
-                      className={
-                        !incident.isRead
-                          ? "font-bold cursor-pointer"
-                          : "cursor-pointer"
-                      }
+                      className={`
+                        ${
+                          !incident.isRead
+                            ? "font-bold cursor-pointer"
+                            : "cursor-pointer"
+                        } border-b border-gray-300
+                          `}
                     >
                       <td className="py-4 pl-4 max-w-xs">{incident.ref_id}</td>
                       <td className="">{incident.watcher_id}</td>
@@ -186,6 +190,12 @@ const IncidentReport = () => {
                       </td>
                       <td className="truncate max-w-[6rem] pr-2">
                         {incident.pollplace || "None"}
+                      </td>
+                      <td>
+                        {new Date(incident.created_at).toLocaleDateString(
+                          "en-US",
+                          { year: "numeric", month: "2-digit", day: "2-digit" }
+                        )}
                       </td>
                       <td>{incident.status}</td>
                     </motion.tr>
@@ -222,6 +232,7 @@ const IncidentReport = () => {
 };
 
 export default IncidentReport;
+
 export const Dropdown = ({
   selectedFilter,
   setSelectedFilter,

@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const incidents: any = await query({
         query:
-          "SELECT `incidents`.id, `incidents`.ref_id, `incidents`.details, `incidents`.precinct_id, `incidents`.pollplace_id, `incidents`.watcher_id, `incidents`.status, `incidents`.isRead, `incidents`.type, `incidents`.resolution, `precincts`.pollplace, `precincts`.`pollstreet` FROM `incidents` LEFT JOIN `precincts` ON `incidents`.precinct_id=`precincts`.`precinct_id` LIMIT ?,?",
+          "SELECT `incidents`.id, `incidents`.ref_id, `incidents`.details, `incidents`.precinct_id, `incidents`.pollplace_id, `incidents`.watcher_id, `incidents`.status, `incidents`.isRead, `incidents`.type, `incidents`.resolution, `incidents`.`created_at`, `precincts`.pollplace, `precincts`.`pollstreet` FROM `incidents` LEFT JOIN `precincts` ON `incidents`.precinct_id=`precincts`.`precinct_id` ORDER BY `incidents`.`id` DESC LIMIT ?,?",
         values: [PAGE_SIZE * (Number(page) - 1), PAGE_SIZE],
       });
 
