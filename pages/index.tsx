@@ -153,7 +153,7 @@ function CircularProgress({ ballotCount, title }: CircularProgressType) {
 
   return (
     <div className="w-64 bg-white shadow-md rounded h-full p-4 flex flex-col justify-between items-center">
-      <p className="font-bold text-xl">{title}</p>
+      <p className="font-bold text-center">{title}</p>
       <div className="w-32 h-32">
         <CircularProgressbar
           value={title !== "Voter Turnout" ? ERT : VT}

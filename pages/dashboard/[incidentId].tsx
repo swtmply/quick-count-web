@@ -155,27 +155,6 @@ const Incident = ({ selectedItem }: { selectedItem: Incident | null }) => {
               </span>{" "}
               {selectedItem.pollplace_id || selectedItem.precinct_id}
             </h2>
-            <h2 className="text-xl font-bold my-4 flex items-center">
-              <span className="text-sm font-semibold mr-2">Resolution:</span>{" "}
-              {selectedItem.resolution ? (
-                <p>{selectedItem.resolution}</p>
-              ) : (
-                <span>
-                  <input
-                    name="email"
-                    onChange={(e) => setResolution(e.target.value)}
-                    type="text"
-                    className={`bg-neutral-100 p-2 rounded-md max-w-md focus:out text-sm ${
-                      errorMsg && "border-2 border-scarlet-300"
-                    }`}
-                    onBlur={() => setErrorMsg(null)}
-                  />
-                  <span className="text-sm text-scarlet-300 font-normal ml-2">
-                    {errorMsg}
-                  </span>
-                </span>
-              )}
-            </h2>
           </div>
 
           <div className="flex gap-10">
@@ -231,6 +210,33 @@ const Incident = ({ selectedItem }: { selectedItem: Incident | null }) => {
                 )}
               </>
             )}
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold my-4 flex flex-col">
+              <span className="text-sm font-semibold mr-2 pb-3">
+                Resolution:
+              </span>{" "}
+              {selectedItem.resolution ? (
+                <p>{selectedItem.resolution}</p>
+              ) : (
+                <span>
+                  <textarea
+                    name="resolution"
+                    rows={5}
+                    cols={60}
+                    onChange={(e) => setResolution(e.target.value)}
+                    className={`bg-neutral-100 p-2 rounded-md  focus:out text-sm ${
+                      errorMsg && "border-2 border-scarlet-300"
+                    }`}
+                    onBlur={() => setErrorMsg(null)}
+                  />
+                  <span className="text-sm text-scarlet-300 font-normal ml-2">
+                    {errorMsg}
+                  </span>
+                </span>
+              )}
+            </h2>
           </div>
 
           <div className="float-right flex gap-2 mt-5">

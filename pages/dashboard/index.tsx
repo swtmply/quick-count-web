@@ -46,10 +46,11 @@ export interface Incident {
 const IncidentReport = () => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
+
   const { data, isLoading } = useQuery(
     ["incidents", page],
     () => getIncidents(page),
-    { keepPreviousData: true }
+    { refetchInterval: 15000 }
   );
 
   const { mutate } = useMutation(updateIncidentRead, {
@@ -186,15 +187,20 @@ const IncidentReport = () => {
                       </td>
                       <td className="">{incident.type || "None"}</td>
                       <td className="">
-                        {incident.pollplace_id || incident.precinct_id}
+                        {incident.precinct_id === "0"
+                          ? "None"
+                          : incident.precinct_id}
                       </td>
                       <td className="truncate max-w-[6rem] pr-2">
-                        {incident.pollplace || "None"}
+                        {incident.pollplace}
                       </td>
                       <td>
-                        {new Date(incident.created_at).toLocaleDateString(
+                        {new Date(incident.created_at).toLocaleTimeString(
                           "en-US",
-                          { year: "numeric", month: "2-digit", day: "2-digit" }
+                          {
+                            minute: "2-digit",
+                            hour: "2-digit",
+                          }
                         )}
                       </td>
                       <td>{incident.status}</td>
@@ -212,17 +218,17 @@ const IncidentReport = () => {
           disabled={1 === page}
         >
           <ChevronLeftIcon
-            className="w-6 h-6"
+            className={`w-6 h-6 ${1 === page && "pointer-events-none"}`}
             onClick={() => setPage((prev) => (prev -= 1))}
           />
         </button>
         {page}
         <button
           className="p-1 rounded text-white bg-indigo-1000 hover:bg-indigo-900 disabled:bg-neutral-200 disabled:text-neutral-400"
-          disabled={pageLimit === page}
+          disabled={pageLimit <= page}
         >
           <ChevronRightIcon
-            className="w-6 h-6"
+            className={`w-6 h-6 ${pageLimit <= page && "pointer-events-none"}`}
             onClick={() => setPage((prev) => (prev += 1))}
           />
         </button>

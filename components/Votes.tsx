@@ -1,8 +1,14 @@
+import { ArrowsExpandIcon } from "@heroicons/react/outline";
+import classNames from "classnames";
+import { useRouter } from "next/router";
 import React from "react";
 import NumberFormat from "react-number-format";
+import PHIcon from "./PHIcon";
 import ProgressBar from "./ProgressBar";
 
 const Votes = ({ votes, toSlice }: { votes: []; toSlice: number }) => {
+  const router = useRouter();
+
   return (
     <tbody>
       {votes.slice(0, toSlice).map((candidate: any, idx: number) => {
@@ -33,9 +39,22 @@ const Votes = ({ votes, toSlice }: { votes: []; toSlice: number }) => {
                     displayType="text"
                   />
                 </td>
+                <td className="text-center" rowSpan={2}>
+                  <button
+                    onClick={() => {
+                      router.push("/chart");
+                    }}
+                    className={classNames(
+                      "bg-[#1774D1]",
+                      "pl-1 pb-1 rounded-full w-10 h-10 relative"
+                    )}
+                  >
+                    <PHIcon />
+                  </button>
+                </td>
               </tr>
               <tr>
-                <td colSpan={4} className="pb-2">
+                <td colSpan={3} className="pb-2">
                   <ProgressBar
                     backgroundColor="bg-[#1774D1]"
                     height={10}

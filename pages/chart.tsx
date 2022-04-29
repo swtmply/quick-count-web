@@ -2,17 +2,34 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
-const geoURL =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/countries/philippines/philippines-provinces.json";
+import { GetServerSideProps } from "next";
+import query from "../lib/db";
+import { Candidate } from "../types";
 
-const Chart = () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const candidateVotes = await query({
+    query: "SELECT * FROM `report_vote_per_prov` WHERE candidate_id='PR_7'",
+  });
+
+  return {
+    props: { candidateVotes: JSON.parse(JSON.stringify(candidateVotes)) },
+  };
+};
+
+const Chart = ({ candidateVotes }: { candidateVotes: any }) => {
   const MapWithNoSSR = dynamic(() => import("../components/Map"), {
     ssr: false,
   });
 
   return (
-    <div>
-      <MapWithNoSSR />
+    <div className="bg-white">
+      <MapWithNoSSR
+        votes={candidateVotes.map((vote: any) => ({
+          province: vote.prov_name,
+          submitted_vote: vote.submitted_vote,
+          candidate_name: vote.candidate_name,
+        }))}
+      />
     </div>
   );
 };
