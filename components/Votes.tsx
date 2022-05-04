@@ -42,7 +42,7 @@ const Votes = ({ votes, toSlice }: { votes: []; toSlice: number }) => {
                 <td className="text-center" rowSpan={2}>
                   <button
                     onClick={() => {
-                      router.push("/chart");
+                      router.push(`/map/${candidate.candidate_id}`);
                     }}
                     className={classNames(
                       "bg-[#1774D1]",

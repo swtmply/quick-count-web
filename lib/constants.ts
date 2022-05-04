@@ -42,4 +42,28 @@ export const graphConfig = {
 
 export const PAGE_SIZE = 10;
 
-const imageRender = "<img src={`data:image/jpeg;base64,${image}`}>";
+export const getColor = (value: number) => {
+  if (value <= 0) {
+    return "#FFFDFD";
+  } else if (value <= 50) {
+    return "#FEE2E2";
+  } else if (value <= 100) {
+    return "#FDB5B5";
+  } else if (value <= 200) {
+    return "#FC7676";
+  } else if (value > 1000) {
+    return "#FB3939";
+  } else {
+    return "#FA0606";
+  }
+};
+
+export const getPresidentColor = (name: string) => {
+  if (name === "PR_7") {
+    return "#FB3939";
+  } else if (name === "PR_10") {
+    return "#FD3595";
+  } else {
+    return "#FFFDFD";
+  }
+};

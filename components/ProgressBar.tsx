@@ -15,7 +15,7 @@ const ProgressBar = ({
     <div className={`rounded-full w-full bg-neutral-200`}>
       <div
         style={progressStyles}
-        className={`rounded-full h-full ${backgroundColor}`}
+        className={`rounded-full h-full  ${backgroundColor} `}
       >
         <span></span>
       </div>
