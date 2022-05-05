@@ -5,12 +5,13 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import query from "../../../../lib/db";
 import MapLayout from "../../../../components/MapLayout";
+import LoadingSpinner from "../../../../components/LoadingSpinner";
 
 const ProvinceMap = dynamic(
   () => import("../../../../components/Maps/ProvinceMap"),
   {
     ssr: false,
-    loading: () => <p>...</p>,
+    loading: () => <LoadingSpinner />,
   }
 );
 

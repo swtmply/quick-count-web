@@ -13,7 +13,11 @@ const PresidentMapLayout = ({ children, votes }: MapLayoutInterface) => {
   return (
     <div className="grid grid-cols-2">
       <div className="overflow-auto p-4">
-        <h1>Votes Legend:</h1>
+        <h2 className="font-bold text-2xl mb-8">
+          Presidential Election Heatmap
+        </h2>
+
+        <h1 className="mb-2">Votes Legend:</h1>
         <PresidentLegend />
 
         {votes.map((vote, idx: number) => (

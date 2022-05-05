@@ -59,8 +59,14 @@ export const getColor = (value: number) => {
 };
 
 export const getPresidentColor = (name: string) => {
-  if (name === "PR_7") {
-    return "#FB3939";
+  if (name === "PR_5") {
+    return "#102354";
+  } else if (name === "PR_3") {
+    return "#6D96FF";
+  } else if (name === "PR_7") {
+    return "#FF1A1A";
+  } else if (name === "PR_9") {
+    return "#002FA8";
   } else if (name === "PR_10") {
     return "#FD3595";
   } else {

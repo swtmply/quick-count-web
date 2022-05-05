@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const candidateVotes = await query({
     query: `SELECT A.*
     FROM report_vote_per_prov A, report_vote_per_prov B
-    WHERE A.candidate_id REGEXP 'PR_7|PR_10'
+    WHERE A.position_id="PR"
     AND A.reg_id='${region}'
     AND A.submitted_vote > B.submitted_vote
     GROUP BY prov_code;`,

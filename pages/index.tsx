@@ -16,6 +16,12 @@ import RingChart from "../components/RingChart";
 
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import dynamic from "next/dynamic";
+
+const HiddenMap = dynamic(() => import("../components/Maps/HiddenMap"), {
+  ssr: false,
+  loading: () => <LoadingSpinner />,
+});
 
 export interface Position {
   position_id: string;
@@ -133,6 +139,7 @@ const Home: NextPage = () => {
           </motion.div>
         )}
       </Layout>
+      <HiddenMap />
       <ModalCard />
     </>
   );
@@ -166,9 +173,9 @@ function CircularProgress({ ballotCount, title }: CircularProgressType) {
           })}
         />
       </div>
-      <p className="text-sm text-center">
+      <div className="text-sm text-center">
         {title !== "Voter Turnout" ? (
-          <p>
+          <div>
             <NumberFormat
               value={ballotCount[0].transmitted_prec}
               thousandSeparator
@@ -181,9 +188,9 @@ function CircularProgress({ ballotCount, title }: CircularProgressType) {
               displayType="text"
             />{" "}
             clustered precincts
-          </p>
+          </div>
         ) : (
-          <p>
+          <div>
             <NumberFormat
               value={ballotCount[0].total_ballot_cast}
               thousandSeparator
@@ -196,9 +203,9 @@ function CircularProgress({ ballotCount, title }: CircularProgressType) {
               displayType="text"
             />{" "}
             voters
-          </p>
+          </div>
         )}
-      </p>
+      </div>
     </div>
   );
 }
