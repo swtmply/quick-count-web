@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { candidateId, region } = ctx.query;
 
   const candidateVotes = await query({
-    query: `SELECT * FROM report_vote_per_prov WHERE candidate_id='${candidateId}' AND reg_id='${region}'`,
+    query: `SELECT * FROM top_pr_candidate_per_prov WHERE candidate_id="${candidateId}" AND region_code="${region}"`,
   });
 
   const regions = await query({
@@ -48,7 +48,7 @@ const Chart = ({
         votes={
           candidateVotes
             ? candidateVotes.map((vote: any) => ({
-                province: vote.prov_name,
+                province: vote.province_name,
                 submitted_vote: vote.submitted_vote,
                 candidate_name: vote.candidate_name,
               }))

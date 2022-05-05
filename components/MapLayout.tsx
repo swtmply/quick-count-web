@@ -20,7 +20,7 @@ const MapLayout = ({ children, votes }: MapLayoutInterface) => {
 
         {votes.map((vote, idx: number) => (
           <div key={idx} className="py-2">
-            <p>{vote.region_name || vote.prov_name}</p>
+            <p>{vote.region_name || vote.province_name}</p>
             <ProgressBar
               backgroundColor={`bg-[${getColor(vote.submitted_vote)}]`}
               height={5}

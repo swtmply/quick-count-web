@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const candidate_id = ctx.query.candidateId;
 
   const candidateVotes = await query({
-    query: `SELECT * FROM report_vote_per_region WHERE candidate_id='${candidate_id}'`,
+    query: `SELECT * FROM top_pr_candidate_per_region WHERE candidate_id='${candidate_id}'`,
   });
 
   return {
