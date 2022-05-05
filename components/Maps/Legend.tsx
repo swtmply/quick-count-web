@@ -2,7 +2,7 @@ import React from "react";
 
 const Legend = () => {
   return (
-    <div className="grid grid-cols-5 w-10/12 h-20">
+    <div className="grid grid-cols-5 w-10/12 h-20 gap-2">
       <div className="bg-[#FFFDFD]" />
       <div className="bg-[#FEE2E2]" />
       <div className="bg-[#FDB5B5]" />
@@ -19,7 +19,7 @@ const Legend = () => {
 
 export const PresidentLegend = () => {
   return (
-    <div className="grid grid-cols-5 w-10/12 h-20 mb-8">
+    <div className="grid grid-cols-5 w-full h-20 mb-8 auto-rows-fr gap-1 text-sm">
       <div className="bg-[#FB3939]" />
       <div className="bg-[#FD3595]" />
       <div className="bg-[#6D96FF]" />
@@ -27,9 +27,9 @@ export const PresidentLegend = () => {
       <div className="bg-[#102354]" />
       <p>Ferdinand Marcos Jr.</p>
       <p>Leni Robredo</p>
-      <p>Isko Moreno</p>
-      <p>Manny Pacquiao</p>
-      <p>Ping Lacson</p>
+      <p>Francisco Moreno</p>
+      <p>Emmanuel Pacquiao</p>
+      <p>Panfilo Lacson</p>
     </div>
   );
 };

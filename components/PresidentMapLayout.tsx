@@ -20,9 +20,12 @@ const PresidentMapLayout = ({ children, votes }: MapLayoutInterface) => {
         <h1 className="mb-2">Votes Legend:</h1>
         <PresidentLegend />
 
+        <h2 className="font-bold text-2xl mb-4">
+          {votes[0].region_name ? "Regions" : "Provinces"}
+        </h2>
         {votes.map((vote, idx: number) => (
           <div key={idx} className="py-2">
-            <p>{vote.region_name || vote.prov_name}</p>
+            <p>{vote.region_name || vote.province_name}</p>
             <ProgressBar
               backgroundColor={`bg-[${getPresidentColor(vote.candidate_id)}]`}
               height={5}

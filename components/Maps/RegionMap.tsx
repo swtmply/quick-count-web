@@ -25,7 +25,7 @@ export interface Votes {
   region_code: string;
   candidate_id: string;
   region_name: string;
-  prov_name: string;
+  province_name: string;
 }
 
 const RegionMap = ({ votes }: { votes: Votes[] }) => {

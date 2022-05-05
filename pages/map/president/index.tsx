@@ -14,11 +14,7 @@ const PresidentMaps = dynamic(
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const candidateVotes = await query({
-    query: `SELECT A.*
-    FROM report_vote_per_region A, report_vote_per_region B
-    WHERE A.submitted_vote > B.submitted_vote
-    AND A.position_id='PR'
-    GROUP BY region_code;`,
+    query: 'SELECT * FROM `top_pr_candidate_per_region` WHERE client_id="01"',
   });
 
   return {

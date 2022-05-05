@@ -39,7 +39,7 @@ const regionsCenter = (region: string) => {
 };
 
 export interface Votes {
-  province: string;
+  prov_name: string;
   candidate_name: string;
   candidate_id: string;
   submitted_vote: number;
@@ -52,7 +52,7 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
 
     const data = votes.find(
       (vote) =>
-        vote.province.toLowerCase() ===
+        vote.prov_name.toLowerCase() ===
         feature.properties.PROVINCE.toLowerCase()
     );
 
@@ -120,7 +120,7 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
       <GeoJSON
         style={(feature) => {
           const data = votes.find((vote) => {
-            const ncr = vote.province.includes("NCR");
+            const ncr = vote.prov_name.includes("NCR");
             const NCR = ncr ? "metropolitan manila" : null;
             const provinceName = feature?.properties.PROVINCE;
 
@@ -130,7 +130,7 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
 
             return (
               NCR ||
-              vote.province.toLowerCase() ===
+              vote.prov_name.toLowerCase() ===
                 feature?.properties.PROVINCE.toLowerCase()
             );
           });
