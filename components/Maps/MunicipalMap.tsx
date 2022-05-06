@@ -54,7 +54,7 @@ const MunicipalMap = ({ votes, type }: { votes: Votes[]; type: string }) => {
     <MapContainer
       center={[14.564, 121.03]}
       zoom={11}
-      className="min-h-screen w-[50vw] !bg-white"
+      className="min-h-screen grow !bg-white"
       dragging={false}
       scrollWheelZoom={false}
       zoomControl={false}
@@ -65,7 +65,9 @@ const MunicipalMap = ({ votes, type }: { votes: Votes[]; type: string }) => {
           const municipal = feature?.properties.MUNICIPAL;
 
           const data = votes.find(
-            (vote) => municipal.toLowerCase() === vote.mun_name.toLowerCase()
+            (vote) =>
+              municipal.toLowerCase() === vote.mun_name.toLowerCase() ||
+              municipal.toLowerCase().includes(vote.mun_name.toLowerCase())
           );
 
           if (data)

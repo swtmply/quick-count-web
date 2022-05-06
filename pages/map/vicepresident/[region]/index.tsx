@@ -51,9 +51,9 @@ const Chart = ({
   regions: any;
   region: any;
 }) => {
-  const { data } = useQuery("map-prov-pr", () => getMapProv(region, "vp"), {
+  const { data } = useQuery("map-prov-vp", () => getMapProv(region, "vp"), {
     initialData: candidateVotes,
-    refetchInterval: 1000,
+    refetchInterval: 5000,
   });
 
   return (

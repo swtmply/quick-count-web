@@ -111,7 +111,7 @@ const Map = ({
     <MapContainer
       center={regionsCenter(regions[0].reg_id).center as LatLngTuple}
       zoom={regionsCenter(regions[0].reg_id).zoom}
-      className="min-h-screen w-[50vw] !bg-white"
+      className="min-h-screen grow !bg-white"
       dragging={false}
       scrollWheelZoom={false}
       zoomControl={false}

@@ -54,7 +54,7 @@ const NCRCandidateMap = ({ votes }: { votes: Votes[] }) => {
     <MapContainer
       center={[14.564, 121.03]}
       zoom={11}
-      className="min-h-screen w-[50vw] !bg-white"
+      className="min-h-screen grow !bg-white"
       dragging={false}
       scrollWheelZoom={false}
       zoomControl={false}

@@ -32,9 +32,9 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
 );
 
 const PresidentMap = ({ candidateVotes }: { candidateVotes: any }) => {
-  const { data } = useQuery("map-region-pr", () => getMapRegion("vp"), {
+  const { data } = useQuery("map-region-vp", () => getMapRegion("vp"), {
     initialData: candidateVotes,
-    refetchInterval: 1000,
+    refetchInterval: 5000,
   });
 
   return (

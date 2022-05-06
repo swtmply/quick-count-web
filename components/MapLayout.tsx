@@ -14,8 +14,8 @@ const MapLayout = ({ children, votes }: MapLayoutInterface) => {
   return (
     <div className="overflow-x-hidden">
       <MapNav />
-      <div className="grid grid-cols-2">
-        <div className="overflow-auto p-4">
+      <div className="flex">
+        <div className="overflow-auto p-4 w-64">
           <h2 className="font-bold text-2xl mb-8">{votes[0].candidate_name}</h2>
 
           <p>Votes Legend:</p>
@@ -23,7 +23,7 @@ const MapLayout = ({ children, votes }: MapLayoutInterface) => {
 
           {votes.map((vote, idx: number) => (
             <div key={idx} className="py-2">
-              <p>{vote.region_name || vote.prov_name}</p>
+              <p>{vote.region_name || vote.province_name || vote.mun_name}</p>
               <ProgressBar
                 backgroundColor={`bg-[${getColor(vote.submitted_vote)}]`}
                 height={5}

@@ -3,24 +3,34 @@ import React from "react";
 
 const Legend = () => {
   return (
-    <div className="grid grid-cols-5 w-full h-20 gap-2">
-      <div className="bg-[#fff6f6]" />
-      <div className="bg-[#FEE2E2]" />
-      <div className="bg-[#FDB5B5]" />
-      <div className="bg-[#FC7676]" />
-      <div className="bg-[#FB3939]" />
-      <p>0 - 2500000</p>
-      <p>2500001 - 5000000</p>
-      <p>5000001 - 7500000</p>
-      <p>7500001 - 1000000</p>
-      <p>1000000+</p>
+    <div className="grid grid-cols-1 w-full mb-8 auto-rows-fr gap-4 text-sm">
+      <div>
+        <div className="bg-[#fff6f6] h-8" />
+        <p>0 - 2500000</p>
+      </div>
+      <div>
+        <div className="bg-[#FEE2E2] h-8" />
+        <p>2500001 - 5000000</p>
+      </div>
+      <div>
+        <div className="bg-[#FDB5B5] h-8" />
+        <p>5000001 - 7500000</p>
+      </div>
+      <div>
+        <div className="bg-[#FC7676] h-8" />
+        <p>7500001 - 1000000</p>
+      </div>
+      <div>
+        <div className="bg-[#FB3939] h-8" />
+        <p>1000000+</p>
+      </div>
     </div>
   );
 };
 
 export const PresidentLegend = () => {
   return (
-    <div className="grid grid-cols-5 w-full mb-8 auto-rows-fr gap-1 text-sm">
+    <div className="grid grid-cols-1 w-full mb-8 auto-rows-fr gap-4 text-sm">
       <Link href="/map/PR_7" passHref>
         <a>
           <div className="bg-[#E6140A] h-8" />
@@ -57,7 +67,7 @@ export const PresidentLegend = () => {
 
 export const VicePresidentLegend = () => {
   return (
-    <div className="grid grid-cols-5 w-full mb-8 auto-rows-fr gap-1 text-sm">
+    <div className="grid grid-cols-1 w-full mb-8 auto-rows-fr gap-4 text-sm">
       <Link href="/map/VP_4" passHref>
         <a>
           <div className="bg-[#18A821] h-8" />

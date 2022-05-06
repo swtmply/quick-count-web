@@ -26,12 +26,11 @@ export const Nav = () => {
             </a>
           </Link>
         </li>
-        {user?.client_id === "005" ||
-          (user?.client_id === "04" && (
-            <li>
-              <HeatMapButton />
-            </li>
-          ))}
+        {user?.client_id === "005" && (
+          <li>
+            <HeatMapButton />
+          </li>
+        )}
         <li>
           <Link href="/national" passHref>
             <a

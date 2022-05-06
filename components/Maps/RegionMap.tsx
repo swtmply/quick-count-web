@@ -73,7 +73,7 @@ const RegionMap = ({ votes }: { votes: Votes[] }) => {
     <MapContainer
       center={[12, 122]}
       zoom={6}
-      className="min-h-screen w-[50vw] !bg-white"
+      className="min-h-screen grow !bg-white"
       dragging={false}
       scrollWheelZoom={false}
       zoomControl={false}

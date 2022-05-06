@@ -21,8 +21,8 @@ const PresidentMapLayout = ({ children, votes, type }: MapLayoutInterface) => {
     <div className="overflow-x-hidden">
       <MapNav />
 
-      <div className="grid grid-cols-2">
-        <div className="overflow-auto p-4">
+      <div className="flex relative">
+        <div className="overflow-y-scroll p-4 w-64 max-h-screen">
           <h2 className="font-bold text-2xl mb-8">
             {type === "PR"
               ? "Presidential Heat Map"
@@ -34,7 +34,7 @@ const PresidentMapLayout = ({ children, votes, type }: MapLayoutInterface) => {
           {type == "PR" ? <PresidentLegend /> : <VicePresidentLegend />}
 
           <h2 className="font-bold text-2xl mb-4">
-            {votes[0].region_name ? "Regions" : "Provinces"}
+            {votes[0]?.province_name ? "Provinces" : "Regions"}
           </h2>
           {votes.map((vote, idx: number) => (
             <div key={idx} className="py-2">

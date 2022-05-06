@@ -34,10 +34,10 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
         outsideManilaVotes: JSON.parse(JSON.stringify(outsideManilaVotes)),
         manilaVotes: JSON.parse(
           JSON.stringify({
-            candidate_id: manilaVotes[0].candidate_id,
-            candidate_name: manilaVotes[0].candidate_name,
-            mun_name: manilaVotes[0].province_name,
-            submitted_vote: manilaVotes[0].submitted_vote,
+            candidate_id: manilaVotes[0]?.candidate_id,
+            candidate_name: manilaVotes[0]?.candidate_name,
+            mun_name: manilaVotes[0]?.province_name,
+            submitted_vote: manilaVotes[0]?.submitted_vote,
           })
         ),
       },
@@ -59,12 +59,30 @@ interface MunicipalMapPage {
 const Municipal = ({ outsideManilaVotes, manilaVotes }: MunicipalMapPage) => {
   const { data } = useQuery("map-ncr-pr", () => getMapNCR("pr"), {
     initialData: [...outsideManilaVotes, manilaVotes],
-    refetchInterval: 1000,
+    refetchInterval: 5000,
   });
 
   return (
-    <PresidentMapLayout votes={data} type="PR">
-      <MunicipalMap type="PR" votes={data} />
+    <PresidentMapLayout
+      votes={data.filter((vote: Votes) => {
+        if (Object.keys(vote).length === 0) {
+          return false;
+        }
+
+        return true;
+      })}
+      type="PR"
+    >
+      <MunicipalMap
+        type="PR"
+        votes={data.filter((vote: Votes) => {
+          if (Object.keys(vote).length === 0) {
+            return false;
+          }
+
+          return true;
+        })}
+      />
     </PresidentMapLayout>
   );
 };

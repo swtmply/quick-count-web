@@ -68,7 +68,7 @@ const PresidentMap = ({ votes, type }: { votes: Votes[]; type: string }) => {
     <MapContainer
       center={[12, 122]}
       zoom={6}
-      className="min-h-screen w-[50vw] !bg-white"
+      className="max-h-screen grow sticky top-0 !bg-white"
       dragging={false}
       scrollWheelZoom={false}
       zoomControl={false}
