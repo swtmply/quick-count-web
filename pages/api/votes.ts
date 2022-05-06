@@ -16,8 +16,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_region` WHERE region_code=? AND position_id=? ORDER BY submitted_vote DESC",
-        values: [region, position],
+          "SELECT * FROM `report_vote_per_region` WHERE region_code=? AND position_id=? AND client_id=? ORDER BY submitted_vote DESC",
+        values: [region, position, req.session.user?.client_id],
       });
 
       res.status(200).json(result);
@@ -30,8 +30,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_muni` WHERE mun_code=? AND position_id=? AND prov_code=? ORDER BY submitted_vote DESC",
-        values: [municipality, position, province],
+          "SELECT * FROM `report_vote_per_muni` WHERE mun_code=? AND position_id=? AND prov_code=? AND client_id=? ORDER BY submitted_vote DESC",
+        values: [municipality, position, province, req.session.user?.client_id],
       });
 
       res.status(200).json(result);
@@ -44,8 +44,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? ORDER BY submitted_vote DESC",
-        values: [province, position],
+          "SELECT * FROM `report_vote_per_prov` WHERE prov_code=? AND position_id=? AND client_id=? ORDER BY submitted_vote DESC",
+        values: [province, position, req.session.user?.client_id],
       });
 
       res.status(200).json(result);
@@ -58,8 +58,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const result = await query({
         query:
-          "SELECT * FROM `report_vote_per_candidate` WHERE position_id='PR' ORDER BY submitted_vote DESC LIMIT ?",
-        values: [Number(top)],
+          "SELECT * FROM `report_vote_per_candidate` WHERE position_id='PR' AND client_id=? ORDER BY submitted_vote DESC LIMIT ?",
+        values: [req.session.user?.client_id, Number(top)],
       });
 
       res.status(200).json(result);
@@ -71,8 +71,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const result = await query({
       query:
-        "SELECT * FROM `report_vote_per_candidate` WHERE position_id=? ORDER BY submitted_vote DESC",
-      values: [position],
+        "SELECT * FROM `report_vote_per_candidate` WHERE position_id=? AND client_id=? ORDER BY submitted_vote DESC",
+      values: [position, req.session.user?.client_id],
     });
 
     res.status(200).json(result);

@@ -5,6 +5,7 @@ import { useState } from "react";
 import SelectedPositionProvider from "../context/SelectedPosition";
 import { FilteredItemsProvider } from "../context/FilteredItems";
 import { SelectedImageProvider } from "../context/SelectedImage";
+import { UserProvider } from "../context/UserContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <FilteredItemsProvider>
           <SelectedPositionProvider>
             <SelectedImageProvider>
-              <Component {...pageProps} />
+              <UserProvider>
+                <Component {...pageProps} />
+              </UserProvider>
             </SelectedImageProvider>
           </SelectedPositionProvider>
         </FilteredItemsProvider>

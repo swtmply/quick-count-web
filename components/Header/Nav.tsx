@@ -2,13 +2,17 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useUser } from "../../context/UserContext";
+import { HeatMapButton } from "./HeatmapButton";
 
-const ACTIVE = "underline";
-const DEFAULT =
+export const ACTIVE = "underline";
+export const DEFAULT =
   "underline-offset-8 decoration-2 hover:cursor-pointer hover:underline";
 
 export const Nav = () => {
   const router = useRouter();
+
+  const { user } = useUser();
 
   return (
     <nav>
@@ -22,6 +26,11 @@ export const Nav = () => {
             </a>
           </Link>
         </li>
+        {user?.client_id === "005" && (
+          <li>
+            <HeatMapButton />
+          </li>
+        )}
         <li>
           <Link href="/national" passHref>
             <a

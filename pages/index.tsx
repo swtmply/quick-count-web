@@ -17,6 +17,8 @@ import RingChart from "../components/RingChart";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import dynamic from "next/dynamic";
+import { User } from "../types";
+import { useUser } from "../context/UserContext";
 
 const HiddenMap = dynamic(() => import("../components/Maps/HiddenMap"), {
   ssr: false,
@@ -51,7 +53,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 },
 sessionOptions);
 
-const Home: NextPage = () => {
+const Home = ({ user }: { user: User }) => {
+  const { setUser } = useUser();
   const { data, isLoading } = useQuery("positions", getPositions);
   const { data: ballotCount, isLoading: ballotCountLoading } = useQuery(
     "ballot-count",
@@ -62,6 +65,10 @@ const Home: NextPage = () => {
   );
   const [items, setItems] = useState<string[]>([]);
   const { filteredItems, setFilteredItems } = useFilteredItems();
+
+  useEffect(() => {
+    setUser(user);
+  }, []);
 
   useEffect(() => {
     if (data) {

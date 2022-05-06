@@ -46,7 +46,11 @@ const Votes = ({ votes, toSlice }: { votes: []; toSlice: number }) => {
                     }}
                     className={classNames(
                       "bg-[#1774D1]",
-                      "pl-1 pb-1 rounded-full w-10 h-10 relative"
+                      "pl-1 pb-1 rounded-full w-10 h-10 relative",
+                      candidate?.candidate_id.includes("PR") ||
+                        candidate?.candidate_id.includes("VP")
+                        ? "visibility: visible"
+                        : "visibility: hidden"
                     )}
                   >
                     <PHIcon />

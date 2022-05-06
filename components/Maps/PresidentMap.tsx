@@ -19,7 +19,7 @@ const countryStyle = {
   fillColor: "#FFFDFD",
 };
 
-const PresidentMap = ({ votes }: { votes: Votes[] }) => {
+const PresidentMap = ({ votes, type }: { votes: Votes[]; type: string }) => {
   const router = useRouter();
 
   const onEachFeature = useCallback((feature, layer: Layer) => {
@@ -45,17 +45,21 @@ const PresidentMap = ({ votes }: { votes: Votes[] }) => {
     layer.on({
       mouseover: (event: any) => {
         layer.openTooltip();
-        event.target.setStyle({
-          fillColor: getPresidentColor(data?.candidate_id || ""),
-        });
-      },
-      mouseout: (event: any) => {
-        event.target.setStyle({
-          fillColor: getPresidentColor(data?.candidate_id || ""),
-        });
       },
       click: () => {
-        if (data) router.push(`/map/president/${data?.region_code}`);
+        if (data?.region_code === "NCR") {
+          if (data) {
+            type === "VP"
+              ? router.push(`/map/vicepresident/${data?.region_code}/01`)
+              : router.push(`/map/president/${data?.region_code}/01`);
+          }
+        } else {
+          if (data) {
+            type === "VP"
+              ? router.push(`/map/vicepresident/${data?.region_code}`)
+              : router.push(`/map/president/${data?.region_code}`);
+          }
+        }
       },
     });
   }, []);

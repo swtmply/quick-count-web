@@ -17,7 +17,6 @@ const Login = () => {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // TODO: add validations
     await axios
       .post("/api/login", { ...values })
       .then((res) => {
@@ -38,7 +37,6 @@ const Login = () => {
     });
   };
 
-  // TODO: error message and validations
   return (
     <div className="grid grid-cols-12 min-h-screen font-poppins overflow-hidden">
       <section className="bg-indigo-1000 col-span-6 relative z-10">

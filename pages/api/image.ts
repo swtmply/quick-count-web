@@ -16,8 +16,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (method === "GET") {
     try {
       const images: any = await query({
-        query: "SELECT * FROM `filestorages` WHERE image_type=? AND ref_id=?",
-        values: [type, ref_id],
+        query:
+          "SELECT * FROM `filestorages` WHERE image_type=? AND ref_id=? AND client_id=?",
+        values: [type, ref_id, req.session.user?.client_id],
       });
 
       res.status(200).json(images);

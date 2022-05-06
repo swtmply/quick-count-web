@@ -45,7 +45,15 @@ export interface Votes {
   submitted_vote: number;
 }
 
-const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
+const Map = ({
+  votes,
+  regions,
+  type,
+}: {
+  votes: Votes[];
+  regions: any;
+  type: string;
+}) => {
   const onEachFeature = useCallback((feature, layer: Layer) => {
     const provinceName = feature.properties.PROVINCE;
     layer.bindTooltip(provinceName);
@@ -65,14 +73,6 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
     layer.on({
       mouseover: (event: any) => {
         layer.openTooltip();
-        event.target.setStyle({
-          fillColor: getPresidentColor(data?.candidate_id || ""),
-        });
-      },
-      mouseout: (event: any) => {
-        event.target.setStyle({
-          fillColor: getPresidentColor(data?.candidate_id || ""),
-        });
       },
     });
   }, []);

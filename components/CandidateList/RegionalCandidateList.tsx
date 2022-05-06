@@ -15,7 +15,6 @@ const RegionalCandidateList = ({
   position_code: string;
   region: string;
 }) => {
-  // TODO: Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading } = useQuery(
     ["votes", region, position_code],
     () => getAllVotesPerRegion(region, position_code),

@@ -11,6 +11,7 @@ export interface User {
   name: string;
   email: string;
   role_code: string;
+  client_id: string;
 }
 
 export interface Candidate {

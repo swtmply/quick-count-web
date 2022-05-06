@@ -34,7 +34,17 @@ const Card = ({ position }: { position: Position }) => {
             <th>Name</th>
             <th className="text-right">Vote Percentage</th>
             <th className="text-right">Votes</th>
-            <th className="text-center max-w-[1rem]">Heat Map</th>
+            <th
+              className={classNames(
+                "text-center max-w-[1rem]",
+                position?.position_code.includes("PR") ||
+                  position?.position_code.includes("VP")
+                  ? "visibility: visible"
+                  : "visibility: hidden"
+              )}
+            >
+              Heat Map
+            </th>
           </tr>
         </thead>
 

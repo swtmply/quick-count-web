@@ -10,6 +10,7 @@ import json from "../../public/data/ph-provinces.json";
 import { GeoJsonObject } from "geojson";
 import { LatLngTuple, Layer } from "leaflet";
 import { getColor } from "../../lib/constants";
+import { useRouter } from "next/router";
 
 const countryStyle = {
   color: "black",
@@ -39,19 +40,23 @@ const regionsCenter = (region: string) => {
 };
 
 export interface Votes {
-  province: string;
+  prov_name: string;
   candidate_name: string;
   submitted_vote: number;
+  region_code: string;
+  candidate_id: string;
 }
 
 const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
+  const router = useRouter();
+
   const onEachFeature = useCallback((feature, layer: Layer) => {
     const provinceName = feature.properties.PROVINCE;
     layer.bindTooltip(provinceName);
 
     const data = votes.find(
       (vote) =>
-        vote.province.toLowerCase() ===
+        vote.prov_name.toLowerCase() ===
         feature.properties.PROVINCE.toLowerCase()
     );
 
@@ -64,14 +69,6 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
     layer.on({
       mouseover: (event: any) => {
         layer.openTooltip();
-        event.target.setStyle({
-          fillColor: getColor(data?.submitted_vote || 0),
-        });
-      },
-      mouseout: (event: any) => {
-        event.target.setStyle({
-          fillColor: getColor(data?.submitted_vote || 0),
-        });
       },
     });
   }, []);
@@ -119,7 +116,7 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
       <GeoJSON
         style={(feature) => {
           const data = votes.find((vote) => {
-            const ncr = vote.province.includes("NCR");
+            const ncr = vote.prov_name.includes("NCR");
             const NCR = ncr ? "metropolitan manila" : null;
             const provinceName = feature?.properties.PROVINCE;
 
@@ -129,7 +126,7 @@ const Map = ({ votes, regions }: { votes: Votes[]; regions: any }) => {
 
             return (
               NCR ||
-              vote.province.toLowerCase() ===
+              vote.prov_name.toLowerCase() ===
                 feature?.properties.PROVINCE.toLowerCase()
             );
           });

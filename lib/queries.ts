@@ -304,3 +304,41 @@ export async function getImageIncidentReport(ref_id: string) {
     console.error(error);
   }
 }
+
+export const getMapRegion = async (position: string) => {
+  try {
+    const result = await axios
+      .get(`/api/map?type=region&position=${position}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMapProv = async (region: string, position: string) => {
+  try {
+    const result = await axios
+      .post(`/api/map?type=prov&position=${position}`, {
+        region,
+      })
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMapNCR = async (position: string) => {
+  try {
+    const result = await axios
+      .get(`/api/map?type=ncr&position=${position}`)
+      .then((res) => res.data);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
     const user = req.session.user;
 
     const candidateVotes = await query({
-      query: `SELECT * FROM top_pr_candidate_per_region WHERE client_id="${user?.client_id}"`,
+      query: `SELECT * FROM top_vp_candidate_per_region WHERE client_id="${user?.client_id}"`,
     });
 
     return {
@@ -32,15 +32,15 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
 );
 
 const PresidentMap = ({ candidateVotes }: { candidateVotes: any }) => {
-  const { data } = useQuery("map-region-pr", () => getMapRegion("pr"), {
+  const { data } = useQuery("map-region-pr", () => getMapRegion("vp"), {
     initialData: candidateVotes,
     refetchInterval: 1000,
   });
 
   return (
-    <PresidentMapLayout votes={data} type="PR">
+    <PresidentMapLayout votes={data} type="VP">
       <PresidentMaps
-        type="PR"
+        type="VP"
         votes={data.map((vote: any) => ({
           region: vote.region_name,
           submitted_vote: vote.submitted_vote,

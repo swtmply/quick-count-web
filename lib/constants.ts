@@ -1,4 +1,3 @@
-import { ChartDatasetProperties } from "chart.js";
 import { SlicePosition } from "../types";
 
 export const slicePosition: SlicePosition[] = [
@@ -43,33 +42,39 @@ export const graphConfig = {
 export const PAGE_SIZE = 10;
 
 export const getColor = (value: number) => {
-  if (value <= 0) {
-    return "#FFFDFD";
-  } else if (value <= 50) {
-    return "#FEE2E2";
-  } else if (value <= 100) {
-    return "#FDB5B5";
-  } else if (value <= 200) {
-    return "#FC7676";
-  } else if (value > 1000) {
-    return "#FB3939";
-  } else {
+  if (value >= 10000000) {
     return "#FA0606";
+  } else if (value >= 7500001 && value <= 10000000) {
+    return "#FB3939";
+  } else if (value >= 5000001 && value <= 7500000) {
+    return "#FC7676";
+  } else if (value >= 250000 && value <= 5000000) {
+    return "#FDB5B5";
+  } else {
+    return "#FEE2E2";
   }
 };
 
 export const getPresidentColor = (name: string) => {
-  if (name === "PR_5") {
+  if (name === "PR_5" || name === "VP_9") {
+    // Ping - Sotto
     return "#102354";
-  } else if (name === "PR_3") {
+  } else if (name === "PR_3" || name === "VP_6") {
+    // Isko - Willie
     return "#6D96FF";
   } else if (name === "PR_7") {
-    return "#FB3939";
-  } else if (name === "PR_9") {
+    // BBM
+    return "#E6140A";
+  } else if (name === "PR_9" || name === "VP_1") {
+    // Pacq - Lito
     return "#002FA8";
-  } else if (name === "PR_10") {
+  } else if (name === "PR_10" || name === "VP_7") {
+    // Leni - Kiko
     return "#FD3595";
+  } else if (name === "VP_4") {
+    // Sara
+    return "#18A821";
   } else {
-    return "#FFFDFD";
+    return "#FFFDFD"; // Others
   }
 };

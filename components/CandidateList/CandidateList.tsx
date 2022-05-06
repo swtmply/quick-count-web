@@ -9,7 +9,6 @@ import { slicePosition } from "../../lib/constants";
 import Votes from "../Votes";
 
 const CandidateList = ({ position_code }: { position_code: string }) => {
-  // TODO Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading } = useQuery(
     ["votes", position_code],
     () => getAllVotes(position_code),

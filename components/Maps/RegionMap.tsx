@@ -25,7 +25,8 @@ export interface Votes {
   region_code: string;
   candidate_id: string;
   region_name: string;
-  province_name: string;
+  province_name?: string;
+  mun_name?: string;
 }
 
 const RegionMap = ({ votes }: { votes: Votes[] }) => {
@@ -54,20 +55,16 @@ const RegionMap = ({ votes }: { votes: Votes[] }) => {
     layer.on({
       mouseover: (event: any) => {
         layer.openTooltip();
-        event.target.setStyle({
-          fillColor: getColor(data?.submitted_vote || 0),
-        });
-      },
-      mouseout: (event: any) => {
-        event.target.setStyle({
-          fillColor: getColor(data?.submitted_vote || 0),
-        });
       },
       click: () => {
-        if (data)
-          router.push(
-            `/map/regions/${data?.region_code}/${data?.candidate_id}`
-          );
+        if (data?.region_code === "NCR") {
+          router.push(`/map/regions/${data.candidate_id}/NCR`);
+        } else {
+          if (data)
+            router.push(
+              `/map/regions/${data.candidate_id}/${data?.region_code}`
+            );
+        }
       },
     });
   }, []);

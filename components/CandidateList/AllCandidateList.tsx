@@ -7,7 +7,6 @@ import LoadingSpinner from "../LoadingSpinner";
 import React from "react";
 
 const AllCandidateList = ({ position_code }: { position_code: string }) => {
-  // TODO Get candidates votes (per region/province/municipality)
   const { data: votes, isLoading } = useQuery(
     ["votes", position_code],
     () => getAllVotes(position_code),

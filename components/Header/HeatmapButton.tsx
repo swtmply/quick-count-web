@@ -2,21 +2,22 @@ import React from "react";
 import {
   ExclamationIcon,
   LogoutIcon,
+  MapIcon,
   StarIcon,
   UserCircleIcon,
 } from "@heroicons/react/outline";
 import { Menu, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import classNames from "classnames";
+import { DEFAULT } from "./Nav";
 
-export const UserButton = () => {
+export const HeatMapButton = () => {
   const router = useRouter();
 
   return (
     <Menu as="div" className="relative inline-block">
-      <Menu.Button>
-        <UserCircleIcon className="w-12 h-12 text-white" />
-      </Menu.Button>
+      <Menu.Button className={classNames(DEFAULT)}>Heatmap</Menu.Button>
       <Transition
         as={React.Fragment}
         enter="transition ease-out duration-100"
@@ -26,32 +27,19 @@ export const UserButton = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
+        <Menu.Items className="absolute right-0 w-64 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
           <Menu.Item>
             {({ active }) => (
               <button
                 onClick={async () => {
-                  if (router.pathname.includes("/dashboard")) {
-                    return router.push("/");
-                  }
-                  router.push("/dashboard");
+                  router.push("/map/president");
                 }}
                 className={`${
                   active ? "bg-blue-600 text-white" : "text-black"
                 } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
               >
-                {router.pathname.includes("/dashboard") ? (
-                  <StarIcon className="w-6 h-6 mr-2" aria-hidden="true" />
-                ) : (
-                  <ExclamationIcon
-                    className="w-6 h-6 mr-2"
-                    aria-hidden="true"
-                  />
-                )}
-
-                {router.pathname.includes("/dashboard")
-                  ? "Vote Report"
-                  : "Incident Report"}
+                <MapIcon className="w-6 h-6 mr-2" />
+                Presidential
               </button>
             )}
           </Menu.Item>
@@ -59,16 +47,14 @@ export const UserButton = () => {
             {({ active }) => (
               <button
                 onClick={async () => {
-                  await axios.post("/api/logout");
-
-                  router.push("/login");
+                  router.push("/map/vicepresident");
                 }}
                 className={`${
                   active ? "bg-blue-600 text-white" : "text-black"
                 } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
               >
-                <LogoutIcon className="w-6 h-6 mr-2" aria-hidden="true" />
-                Logout
+                <MapIcon className="w-6 h-6 mr-2" />
+                Vice Presidential
               </button>
             )}
           </Menu.Item>
